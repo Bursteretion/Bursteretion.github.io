@@ -7,8 +7,8 @@
 
 <head>
   <meta charset="UTF-8">
-  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
-  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="https://cdn.jsdelivr.net/gh/Bursteretion/file-repo/imgs/me.jpg">
+  <link rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/Bursteretion/file-repo/imgs/me.jpg">
   <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -26,7 +26,7 @@
   <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
 
   
-    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/atom-one-dark.min.css" />
   
 
   
@@ -127,6 +127,18 @@
             </li>
           
         
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
         
           <li class="nav-item" id="search-btn">
             <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
@@ -164,7 +176,7 @@
           >
           
             <div class="about-avatar">
-              <img src="/img/avatar.png" srcset="/img/loading.gif"
+              <img src="https://cdn.jsdelivr.net/gh/Bursteretion/file-repo/imgs/me.jpg" srcset="/img/loading.gif"
                    class="img-fluid" alt="avatar">
             </div>
           
@@ -175,14 +187,14 @@
 
 <div class="text-center">
   <div class="about-info">
-    <div class="about-name">myname</div>
-    <div class="about-intro">一句简短的介绍</div>
+    <div class="about-name">追尾巴的猫</div>
+    <div class="about-intro">知足且坚定，温柔且上进</div>
     <div class="about-icons">
       
         
         
         
-        <a href="https://github.com" class="
+        <a href="https://github.com/Bursteretion" class="
            hint--bottom hint--rounded"
            aria-label=GitHub
         >
@@ -193,11 +205,22 @@
         
         
         
-        <a href="https://douban.com" class="
+        <a href="https://space.bilibili.com/96887910" class="
            hint--bottom hint--rounded"
-           aria-label=豆瓣
+           aria-label=B站
         >
-          <i class="iconfont icon-douban-fill" aria-hidden="true"></i>
+          <i class="iconfont icon-bilibili-fill" aria-hidden="true"></i>
+          
+        </a>
+      
+        
+        
+        
+        <a href="https://www.zhihu.com/people/sha-gua-46-55" class="
+           hint--bottom hint--rounded"
+           aria-label=知乎
+        >
+          <i class="iconfont icon-zhihu-fill" aria-hidden="true"></i>
           
         </a>
       
@@ -208,9 +231,22 @@
            "
            
         >
-          <i class="iconfont icon-wechat-fill" aria-hidden="true"></i>
+          <i class="iconfont icon-alipay-fill" aria-hidden="true"></i>
           
-            <img class="qr-img" src="/img/favicon.png" srcset="/img/loading.gif" alt="qrcode" />
+            <img class="qr-img" src="https://cdn.jsdelivr.net/gh/Bursteretion/file-repo/imgs/alipay.png" srcset="/img/loading.gif" alt="qrcode" />
+          
+        </a>
+      
+        
+        
+        
+        <a href="javascript:;" class="qr-trigger
+           "
+           
+        >
+          <i class="iconfont icon-wechat2-fill" aria-hidden="true"></i>
+          
+            <img class="qr-img" src="https://cdn.jsdelivr.net/gh/Bursteretion/file-repo/imgs/wechat-pay.png" srcset="/img/loading.gif" alt="qrcode" />
           
         </a>
       
@@ -272,6 +308,30 @@
         <span>Fluid</span></a>
     </div>
     
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+             
+            <span id="busuanzi_value_site_pv"></span>
+             次访问
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            感谢 
+            <span id="busuanzi_value_site_uv"></span>
+             位小伙伴的
+          </span>
+      
+    
+  </div>
+
 
     
 
@@ -299,6 +359,8 @@
 
 
 
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
 
 
 
@@ -314,7 +376,7 @@
       ],
       cursorChar: "_",
       typeSpeed: 70,
-      loop: false,
+      loop: true,
     });
     typed.stop();
     $(document).ready(function () {
@@ -359,6 +421,57 @@
 
 
 
+
+  
+  
+    <script>
+      !function (e, t, a) {
+        function r() {
+          for (var e = 0; e < s.length; e++) s[e].alpha <= 0 ? (t.body.removeChild(s[e].el), s.splice(e, 1)) : (s[e].y--, s[e].scale += .004, s[e].alpha -= .013, s[e].el.style.cssText = "left:" + s[e].x + "px;top:" + s[e].y + "px;opacity:" + s[e].alpha + ";transform:scale(" + s[e].scale + "," + s[e].scale + ") rotate(45deg);background:" + s[e].color + ";z-index:99999");
+          requestAnimationFrame(r)
+        }
+
+        function n() {
+          var t = "function" == typeof e.onclick && e.onclick;
+          e.onclick = function (e) {
+            t && t(), o(e)
+          }
+        }
+
+        function o(e) {
+          var a = t.createElement("div");
+          a.className = "heart", s.push({
+            el: a,
+            x: e.clientX - 5,
+            y: e.clientY - 5,
+            scale: 1,
+            alpha: 1,
+            color: c()
+          }), t.body.appendChild(a)
+        }
+
+        function i(e) {
+          var a = t.createElement("style");
+          a.type = "text/css";
+          try {
+            a.appendChild(t.createTextNode(e))
+          } catch (t) {
+            a.styleSheet.cssText = e
+          }
+          t.getElementsByTagName("head")[0].appendChild(a)
+        }
+
+        function c() {
+          return "rgb(" + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + ")"
+        }
+
+        var s = [];
+        e.requestAnimationFrame = e.requestAnimationFrame || e.webkitRequestAnimationFrame || e.mozRequestAnimationFrame || e.oRequestAnimationFrame || e.msRequestAnimationFrame || function (e) {
+          setTimeout(e, 1e3 / 60)
+        }, i(".heart{width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: fixed;}.heart:after{top: -5px;}.heart:before{left: -5px;}"), n(), r()
+      }(window, document);
+    </script>
+  
 
 
 
