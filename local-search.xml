@@ -4,13 +4,29 @@
   
   
   <entry>
-    <title>Hello World</title>
-    <link href="/2020/06/30/hello-world/"/>
-    <url>/2020/06/30/hello-world/</url>
+    <title>Eternal</title>
+    <link href="/2020/06/30/Eternal/"/>
+    <url>/2020/06/30/Eternal/</url>
     
-    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><div class="hljs"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">"My New Post"</span></code></pre></div><p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><div class="hljs"><pre><code class="hljs bash">$ hexo server</code></pre></div><p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><div class="hljs"><pre><code class="hljs bash">$ hexo generate</code></pre></div><p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><div class="hljs"><pre><code class="hljs bash">$ hexo deploy</code></pre></div><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>]]></content>
+    <content type="html"><![CDATA[<h1 align="center"><a href="https://github.com/halo-dev" target="_blank">Eternal</a></h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p><strong>Eternal</strong> <code>[ɪˈtɜːrnl]</code>，意为永恒。</p><p>一个清新简约的博客系统，可适配多主题</p><blockquote><p><a href="http://39.106.117.247/" target="_blank" rel="noopener">预览地址</a></p></blockquote><h2 id="声明"><a href="#声明" class="headerlink" title="声明"></a>声明</h2><blockquote><p>本项目只是为了个人使用而开发，<br>项目起初是很简陋的，后来由于学校课程各种设计，所以博客的功能越来越多，也越来越完善，有兴趣的童鞋可以看看</p></blockquote><h2 id="项目介绍"><a href="#项目介绍" class="headerlink" title="项目介绍"></a>项目介绍</h2><ul><li>项目采用Vue + SpringBoot开发，对于练习SpringBoot和Vue是个不错的练手项目</li><li>后台管理使用Vue + ant-design-vue搭建，后台是通用模板，当然如果不喜欢的话可以独立开发，对于其他功能并不影响</li><li>前台使用thymeleaf模板引擎渲染，可通过api进行主题适配</li><li>…………..</li></ul><h2 id="预览图"><a href="#预览图" class="headerlink" title="预览图"></a>预览图</h2><h2 id=""><a href="#" class="headerlink" title=""></a><img src="https://i.loli.net/2020/06/28/sJYBuHCA8DX6mjr.png" srcset="/img/loading.gif" alt=""></h2><h2 id="-1"><a href="#-1" class="headerlink" title=""></a><img src="https://i.loli.net/2020/06/28/4MGgua3qVcK9Q8f.png" srcset="/img/loading.gif" alt=""></h2><h2 id="-2"><a href="#-2" class="headerlink" title=""></a><img src="https://i.loli.net/2020/06/28/4lb6KwjnveS9REk.png" srcset="/img/loading.gif" alt=""></h2><h2 id="-3"><a href="#-3" class="headerlink" title=""></a><img src="https://i.loli.net/2020/06/28/njVu791hOPgxedt.png" srcset="/img/loading.gif" alt=""></h2><h2 id="-4"><a href="#-4" class="headerlink" title=""></a><img src="https://i.loli.net/2020/06/28/Cnva7NUES5w4lsu.png" srcset="/img/loading.gif" alt=""></h2><h2 id="-5"><a href="#-5" class="headerlink" title=""></a><img src="https://i.loli.net/2020/06/28/g5MN1kl4K9pz6da.png" srcset="/img/loading.gif" alt=""></h2><h2 id="-6"><a href="#-6" class="headerlink" title=""></a><img src="https://i.loli.net/2020/06/28/GjImg7lX6preMW8.png" srcset="/img/loading.gif" alt=""></h2><p><img src="https://i.loli.net/2020/06/28/JPf6GazQmbyOD89.png" srcset="/img/loading.gif" alt=""></p><hr>]]></content>
     
     
+    <categories>
+      
+      <category>Vue</category>
+      
+      <category>SpringBoot</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Eternal</tag>
+      
+      <tag>blog</tag>
+      
+    </tags>
     
   </entry>
   
