@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="https://cdn.jsdelivr.net/gh/Bursteretion/file-repo/imgs/me.jpg">
+  <link rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/Bursteretion/file-repo/imgs/me.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="知足且坚定，温柔且上进">
+  <meta name="author" content="lwjppz">
+  <meta name="keywords" content="">
+  <title>Spring - 组件注册（一） - 追尾巴的猫</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/atom-one-dark.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>追尾巴的猫</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('https://img.xjh.me/desktop/bg/nature/63378632_p0.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2020-07-01 13:55">
+      2020年7月1日 下午
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      836 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      12
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <h2 id="组件注册"><a href="#组件注册" class="headerlink" title="组件注册"></a>组件注册</h2><h3 id="Configuration-和-Bean"><a href="#Configuration-和-Bean" class="headerlink" title="@Configuration 和 @Bean"></a><strong>@Configuration</strong> 和 <strong>@Bean</strong></h3><ul>
+<li>在 <strong>Spring</strong> 中配置类就相当于配置文件</li>
+</ul>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">import</span> cn.lwjppz.entites.User;
+<span class="hljs-keyword">import</span> org.springframework.context.annotation.Bean;
+<span class="hljs-keyword">import</span> org.springframework.context.annotation.Configuration;
+
+<span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@author</span> : lwj</span>
+<span class="hljs-comment"> * createTime  : 2020/7/1 9:40</span>
+<span class="hljs-comment"> * description : Reprint please indicate the source</span>
+<span class="hljs-comment"> *</span>
+<span class="hljs-comment"> * 配置类 == 配置文件</span>
+<span class="hljs-comment"> */</span>
+
+<span class="hljs-meta">@Configuration</span>  <span class="hljs-comment">// 告诉 Spring 这是一个配置类</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MainConfig</span> </span>&#123;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 给容器注册一个 Bean ，类型为返回值类型，id默认使用方法名作为id</span>
+<span class="hljs-comment">     * 也可给<span class="hljs-doctag">@Bean</span>中传入value参数自定义id</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@return</span> user实例</span>
+<span class="hljs-comment">     */</span>
+<span class="hljs-comment">//    @Bean("user01")</span>
+    <span class="hljs-meta">@Bean</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> User <span class="hljs-title">user</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> User(<span class="hljs-number">1</span>, <span class="hljs-string">"lwjppz"</span>, <span class="hljs-number">20</span>);
+    &#125;
+&#125;</code></pre></div>
+<ul>
+<li><p>测试类</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">import</span> cn.lwjppz.config.MainConfig;
+<span class="hljs-keyword">import</span> cn.lwjppz.entites.User;
+<span class="hljs-keyword">import</span> org.junit.Test;
+<span class="hljs-keyword">import</span> org.springframework.context.ApplicationContext;
+<span class="hljs-keyword">import</span> org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+<span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@author</span> : lwj</span>
+<span class="hljs-comment"> * createTime  : 2020/6/30 10:08</span>
+<span class="hljs-comment"> * description : Reprint please indicate the source</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MainTest</span> </span>&#123;
+
+    <span class="hljs-meta">@Test</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">test</span><span class="hljs-params">()</span> </span>&#123;
+        ApplicationContext context = <span class="hljs-keyword">new</span> AnnotationConfigApplicationContext(MainConfig<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+        User user = context.getBean(User<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+        System.out.println(user);
+
+        String[] names = context.getBeanNamesForType(User<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+        <span class="hljs-keyword">for</span> (String name : names) &#123;
+            System.out.println(name);
+        &#125;
+    &#125;
+&#125;</code></pre></div>
+</li>
+<li><p>测试结果<br><img src="https://i.loli.net/2020/07/01/hix75SsOybTElNJ.png" srcset="/img/loading.gif" alt="image.png"></p>
+</li>
+</ul>
+<h3 id="ComponentScan-自动扫描组件-amp-指定扫描规则"><a href="#ComponentScan-自动扫描组件-amp-指定扫描规则" class="headerlink" title="@ComponentScan - 自动扫描组件&amp;指定扫描规则"></a>@ComponentScan - 自动扫描组件&amp;指定扫描规则</h3><ul>
+<li><p>新建UserController、UserDao、UserService，分别加上@Controller，@Repository，@Service注解<br><img src="https://i.loli.net/2020/07/01/SaBREzuIJVcvFpP.png" srcset="/img/loading.gif" alt="image.png"></p>
+</li>
+<li><p>测试</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@Test</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">test2</span><span class="hljs-params">()</span> </span>&#123;
+    ApplicationContext context = <span class="hljs-keyword">new</span> AnnotationConfigApplicationContext(MainConfig<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+    String[] names = context.getBeanDefinitionNames();
+    <span class="hljs-keyword">for</span> (String name : names) &#123;
+        System.out.println(name);
+    &#125;
+&#125;</code></pre></div>
+
+</li>
+</ul>
+<p><img src="https://i.loli.net/2020/07/01/HfCQVFSDP7lgmbB.png" srcset="/img/loading.gif" alt="image.png"></p>
+<h4 id="指定包扫描规则"><a href="#指定包扫描规则" class="headerlink" title="指定包扫描规则"></a>指定包扫描规则</h4><h5 id="1-指定排除规则"><a href="#1-指定排除规则" class="headerlink" title="1. 指定排除规则"></a>1. 指定排除规则</h5><div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">// excludeFilters Filter[] 扫描的时候按照指定的规则排除指定的组件</span>
+<span class="hljs-comment">// 排除加了 @Controller 和 @Service 注解的组件</span>
+<span class="hljs-meta">@ComponentScan</span>(value = <span class="hljs-string">"cn.lwjppz"</span>, excludeFilters = &#123;<span class="hljs-meta">@Filter</span>(type = FilterType.ANNOTATION, classes = &#123;Controller<span class="hljs-class">.<span class="hljs-keyword">class</span>, <span class="hljs-title">Service</span>.<span class="hljs-title">class</span>&#125;)&#125;)</span></code></pre></div>
+<p>效果：</p>
+<p><img src="https://i.loli.net/2020/07/01/2koKjwPXUAhe4qN.png" srcset="/img/loading.gif" alt="image.png"></p>
+<p>很明显和之前相比少了 <strong>userController</strong> 和 <strong>userService</strong>。</p>
+<h5 id="2-指定包含规则"><a href="#2-指定包含规则" class="headerlink" title="2. 指定包含规则"></a>2. 指定包含规则</h5><div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">// includeFilters Filter[] 扫描的时候只需要包含哪些组件</span>
+<span class="hljs-comment">// 只扫描加了 @Controller 组件的组件</span>
+<span class="hljs-meta">@ComponentScan</span>(value = <span class="hljs-string">"cn.lwjppz"</span>, includeFilters = &#123;<span class="hljs-meta">@Filter</span>(type = FilterType.ANNOTATION, classes = Controller<span class="hljs-class">.<span class="hljs-keyword">class</span>)&#125;, <span class="hljs-title">useDefaultFilters</span> </span>= <span class="hljs-keyword">false</span>)</code></pre></div>
+
+<p>注意：使用 <strong>includeFilters</strong> 时要排除 <strong>Spring</strong> 默认的 Filters，需在 <strong>@ComponentScan</strong> 中加入 <strong>useDefaultFilters = false</strong></p>
+<p>效果：</p>
+<p><img src="https://i.loli.net/2020/07/01/atcug3hLy4AYBZp.png" srcset="/img/loading.gif" alt="image.png"></p>
+<p>现在就只有加了 <strong>@Controller</strong> 的组件被包含进来了</p>
+<h5 id="3-也可使用-ComponentScans-来指定多个扫描规则"><a href="#3-也可使用-ComponentScans-来指定多个扫描规则" class="headerlink" title="3. 也可使用 @ComponentScans 来指定多个扫描规则"></a>3. 也可使用 <strong>@ComponentScans</strong> 来指定多个扫描规则</h5><div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@ComponentScans</span>(&#123;
+        <span class="hljs-meta">@ComponentScan</span>(value = <span class="hljs-string">"cn.lwjppz"</span>, includeFilters = &#123;<span class="hljs-meta">@Filter</span>(type = FilterType.ANNOTATION, classes = Controller<span class="hljs-class">.<span class="hljs-keyword">class</span>)&#125;, <span class="hljs-title">useDefaultFilters</span> </span>= <span class="hljs-keyword">false</span>)
+&#125;)</code></pre></div>
+<p>效果是和之前的一样的。</p>
+<h5 id="4-自定义规则"><a href="#4-自定义规则" class="headerlink" title="4. 自定义规则"></a>4. 自定义规则</h5><div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> *  FilterType.ANNOTATION           按照注解</span>
+<span class="hljs-comment"> *  FilterType.ASSIGNABLE_TYPE      按照给定的类型</span>
+<span class="hljs-comment"> *  FilterType.ASPECTJ              使用 ASPECTJ 表达式</span>
+<span class="hljs-comment"> *  FilterType.REGEX                使用正则表达式</span>
+<span class="hljs-comment"> *  FilterType.CUSTOM               使用自定义规则</span>
+<span class="hljs-comment"> */</span></code></pre></div>
+<p><img src="https://i.loli.net/2020/07/01/8XJRmwf2v7KWIgC.png" srcset="/img/loading.gif" alt="image.png"></p>
+<p>注意：自定义 <strong>Filter</strong> 需实现 <strong>TypeFilter</strong> 接口</p>
+<h3 id="Scope-设置组件作用域"><a href="#Scope-设置组件作用域" class="headerlink" title="@Scope - 设置组件作用域"></a>@Scope - 设置组件作用域</h3><div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@author</span> : lwj</span>
+<span class="hljs-comment"> * createTime  : 2020/7/1 11:33</span>
+<span class="hljs-comment"> * description : Reprint please indicate the source</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-meta">@Configuration</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MainConfig2</span> </span>&#123;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 默认是单实例的</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@see</span> ConfigurableBeanFactory#SCOPE_PROTOTYPE  singleton</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@see</span> ConfigurableBeanFactory#SCOPE_SINGLETON  prototype</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@see</span> org.springframework.web.context.WebApplicationContext#SCOPE_REQUEST request</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@see</span> org.springframework.web.context.WebApplicationContext#SCOPE_SESSION session</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span>
+<span class="hljs-comment">     *</span>
+<span class="hljs-comment">     * singleton    单实例（默认值）    IOC容器启动后会去调用方法创建对象，放入容器中</span>
+<span class="hljs-comment">     *              以后每次获取都是从容器中拿（map.get())</span>
+<span class="hljs-comment">     * prototype    多实例             IOC容器启动后并不会去调用方法创建对象放入容器中</span>
+<span class="hljs-comment">     *              每次获取的时候才会调用方法创建对象，所以每次获取的对象都不相同</span>
+<span class="hljs-comment">     * request      同一次请求创建一个实例</span>
+<span class="hljs-comment">     * session      同一次 session 创建一个实例</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-meta">@Scope</span>(<span class="hljs-string">"singleton"</span>)
+    <span class="hljs-meta">@Bean</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> User <span class="hljs-title">user</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> User(<span class="hljs-number">1</span>, <span class="hljs-string">"lisi"</span>, <span class="hljs-number">20</span>);
+    &#125;
+&#125;</code></pre></div>
+
+<p>测试：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@Test</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">test3</span><span class="hljs-params">()</span> </span>&#123;
+    ApplicationContext context = <span class="hljs-keyword">new</span> AnnotationConfigApplicationContext(MainConfig2<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+    User bean1 = context.getBean(User<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+    User bean2 = context.getBean(User<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+    System.out.println(bean1 == bean2);
+&#125;</code></pre></div>
+<p><img src="https://i.loli.net/2020/07/01/gPvzRnT1qFH87UJ.png" srcset="/img/loading.gif" alt="image.png"></p>
+<p>换成 <strong>prototype</strong> 之后</p>
+<p><img src="https://i.loli.net/2020/07/01/1RUx534fcPwpGSk.png" srcset="/img/loading.gif" alt="image.png"></p>
+<h3 id="Lazy-Bean懒加载"><a href="#Lazy-Bean懒加载" class="headerlink" title="@Lazy - Bean懒加载"></a>@Lazy - Bean懒加载</h3><p>单实例bean，默认在容器启动的时候创建对象。<br>懒加载，容器启动时不创建对象，在第一次使用（获取）bean的时候创建，并初始化。</p>
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Spring/">Spring</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%A1%86%E6%9E%B6/">框架</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Spring/">Spring</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2020/06/30/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B8%83%E5%A4%A7%E5%8E%9F%E5%88%99/">
+                        <span class="hidden-mobile">设计模式七大原则</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <div class="comments" id="comments">
+                
+                
+  <div id="vcomments"></div>
+  <script type="text/javascript">
+    function loadValine() {
+      addScript('https://cdn.staticfile.org/valine/1.4.14/Valine.min.js', function () {
+        new Valine({
+          el: "#vcomments",
+          app_id: "YewWjRD17w1tEA3i1HFhfPaH-gzGzoHsz",
+          app_key: "bo1KW4tI4AB9hnl9VC1dnFjt",
+          placeholder: "说点什么",
+          path: window.location.pathname,
+          avatar: "retro",
+          meta: ["nick","mail","link"],
+          pageSize: "10",
+          lang: "zh-CN",
+          highlight: true,
+          recordIP: false,
+          serverURLs: "",
+        });
+      });
+    }
+    createObserver(loadValine, 'vcomments');
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://valine.js.org" target="_blank" rel="nofollow noopener noopener">comments
+      powered by Valine.</a></noscript>
+
+
+              </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问数 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总 
+            <span id="busuanzi_value_site_uv"></span>
+             人访问
+          </span>
+      
+    
+  </div>
+
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "Spring - 组件注册（一）&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: true,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.staticfile.org/mathjax/3.0.5/es5/tex-svg.js" ></script>
+
+  
+
+
+
+  
+  
+    <script>
+      !function (e, t, a) {
+        function r() {
+          for (var e = 0; e < s.length; e++) s[e].alpha <= 0 ? (t.body.removeChild(s[e].el), s.splice(e, 1)) : (s[e].y--, s[e].scale += .004, s[e].alpha -= .013, s[e].el.style.cssText = "left:" + s[e].x + "px;top:" + s[e].y + "px;opacity:" + s[e].alpha + ";transform:scale(" + s[e].scale + "," + s[e].scale + ") rotate(45deg);background:" + s[e].color + ";z-index:99999");
+          requestAnimationFrame(r)
+        }
+
+        function n() {
+          var t = "function" == typeof e.onclick && e.onclick;
+          e.onclick = function (e) {
+            t && t(), o(e)
+          }
+        }
+
+        function o(e) {
+          var a = t.createElement("div");
+          a.className = "heart", s.push({
+            el: a,
+            x: e.clientX - 5,
+            y: e.clientY - 5,
+            scale: 1,
+            alpha: 1,
+            color: c()
+          }), t.body.appendChild(a)
+        }
+
+        function i(e) {
+          var a = t.createElement("style");
+          a.type = "text/css";
+          try {
+            a.appendChild(t.createTextNode(e))
+          } catch (t) {
+            a.styleSheet.cssText = e
+          }
+          t.getElementsByTagName("head")[0].appendChild(a)
+        }
+
+        function c() {
+          return "rgb(" + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + ")"
+        }
+
+        var s = [];
+        e.requestAnimationFrame = e.requestAnimationFrame || e.webkitRequestAnimationFrame || e.mozRequestAnimationFrame || e.oRequestAnimationFrame || e.msRequestAnimationFrame || function (e) {
+          setTimeout(e, 1e3 / 60)
+        }, i(".heart{width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: fixed;}.heart:after{top: -5px;}.heart:before{left: -5px;}"), n(), r()
+      }(window, document);
+    </script>
+  
+
+
+
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/mermaid/8.5.0/mermaid.min.js" ></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize({"theme":"default"});
+    }
+  </script>
+
+
+
+
+
+
+
+</body>
+</html>
