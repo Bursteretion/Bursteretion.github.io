@@ -17,7 +17,7 @@
   <meta name="description" content="知足且坚定，温柔且上进">
   <meta name="author" content="lwjppz">
   <meta name="keywords" content="">
-  <title>Java - 静态代理和动态代理 - 追尾巴的猫</title>
+  <title>Spring - 组件注册（二） - 追尾巴的猫</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 
@@ -151,7 +151,7 @@
 </nav>
 
     <div class="view intro-2" id="background" parallax=true
-         style="background: url('https://i.loli.net/2020/07/13/EaplWMCiHFUbVkn.png') no-repeat center center;
+         style="background: url('https://img.xjh.me/desktop/bg/nature/63288664_p0.jpg') no-repeat center center;
            background-size: cover;">
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
@@ -164,8 +164,8 @@
               
   <div class="mt-3 post-meta">
     <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-    <time datetime="2020-07-13 18:21">
-      2020年7月13日 晚上
+    <time datetime="2020-07-03 17:44">
+      2020年7月3日 下午
     </time>
   </div>
 
@@ -175,7 +175,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.1k 字
+      743 字
     </span>
   
 
@@ -185,7 +185,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      13
+      12
        分钟
     </span>
   
@@ -216,107 +216,160 @@
           <div class="post-content mx-auto" id="post">
             
             <article class="markdown-body">
-              <p>由于后面要写的文章需要用到代理的知识，所以先写这篇文章为后面的知识做铺垫。</p>
-<blockquote>
-<p>代理就是定义一个行为和某类的对象相似，而又潜在地表示了所有继承自该类的对象的东西。</p>
-</blockquote>
-<p><img src="https://i.loli.net/2020/07/13/GdQDHc7TpaF2Bqv.png" srcset="/img/loading.gif" alt="image.png"></p>
-<p>在说动态代理之前，必须先聊聊什么是静态代理。</p>
-<h2 id="静态代理"><a href="#静态代理" class="headerlink" title="静态代理"></a>静态代理</h2><p>假设现在有这么一个需求：在某个类的方法前后打印日志。</p>
-<p>那么要如何做到在<strong>不修改源代码前提下</strong>，来实现这个功能呢？</p>
-<p>首先想到的就是静态代理，具体做法是：</p>
-<ol>
-<li><p>为这个类编写一个对应的代理类，并让它实现与目标类相同的接口。<br><img src="https://i.loli.net/2020/07/13/a9Ynr3pGFRkeHd1.png" srcset="/img/loading.gif" alt="image.png"></p>
-</li>
-<li><p>在创建代理对象是，通过构造函数传入一个实现了该接口的目标对象，然后在代理对象内部调用目标对象的同名方法，并在调用之前后打印日志。也就是说，<strong>代理对象 = 目标对象 + 增强代码</strong>。而有了代理对象后，就不需要原对象了。<br><img src="https://i.loli.net/2020/07/13/eT2AvUkB3EuMR15.png" srcset="/img/loading.gif" alt="image.png"></p>
-</li>
-</ol>
-<h3 id="编写代码进行测试"><a href="#编写代码进行测试" class="headerlink" title="编写代码进行测试"></a>编写代码进行测试</h3><ol>
-<li>首先先新建一个接口<strong>A</strong><div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">A</span> </span>&#123;
-    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">add</span><span class="hljs-params">()</span></span>;
+              <h2 id="组件注册"><a href="#组件注册" class="headerlink" title="组件注册"></a>组件注册</h2><h3 id="Conditional-按照条件注册"><a href="#Conditional-按照条件注册" class="headerlink" title="@Conditional - 按照条件注册"></a>@Conditional - 按照条件注册</h3><h4 id="源码："><a href="#源码：" class="headerlink" title="源码："></a>源码：</h4><div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@Target</span>(&#123;ElementType.TYPE, ElementType.METHOD&#125;)
+<span class="hljs-meta">@Retention</span>(RetentionPolicy.RUNTIME)
+<span class="hljs-meta">@Documented</span>
+<span class="hljs-keyword">public</span> <span class="hljs-meta">@interface</span> Conditional &#123;
+	<span class="hljs-comment">/**</span>
+<span class="hljs-comment">	 * All &#123;<span class="hljs-doctag">@link</span> Condition Conditions&#125; that must &#123;<span class="hljs-doctag">@linkplain</span> Condition#matches match&#125;</span>
+<span class="hljs-comment">	 * in order for the component to be registered.</span>
+<span class="hljs-comment">	 */</span>
+	Class&lt;? extends Condition&gt;[] value();
 &#125;</code></pre></div>
+<p>我们需要传入一个 <strong>Class&lt;? extends Condition&gt;</strong> 数组，且每个自定义的 <strong>condition</strong> 都需要实现 <strong>Condition</strong> 接口。<br>我们在这里先创建两个Condition，分别判断是Windows系统还是Linux系统</p>
+<h4 id="WindowsCondition"><a href="#WindowsCondition" class="headerlink" title="WindowsCondition"></a><strong>WindowsCondition</strong></h4><div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">import</span> org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
+<span class="hljs-keyword">import</span> org.springframework.beans.factory.support.BeanDefinitionRegistry;
+<span class="hljs-keyword">import</span> org.springframework.context.annotation.Condition;
+<span class="hljs-keyword">import</span> org.springframework.context.annotation.ConditionContext;
+<span class="hljs-keyword">import</span> org.springframework.core.env.Environment;
+<span class="hljs-keyword">import</span> org.springframework.core.type.AnnotatedTypeMetadata;
 
-</li>
-</ol>
-<p>2.创建一个对应的实现类 <strong>AImpl</strong></p>
-<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AImpl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">A</span> </span>&#123;
+<span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@author</span> : lwj</span>
+<span class="hljs-comment"> * createTime  : 2020/7/2 17:21</span>
+<span class="hljs-comment"> * description : Reprint please indicate the source</span>
+<span class="hljs-comment"> * 判断是否是Windows系统</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">WindowsCondition</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Condition</span> </span>&#123;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     *</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> context 判断条件能使用的上下文（环境</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> metadata 注释信息</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@return</span> true or false</span>
+<span class="hljs-comment">     */</span>
     <span class="hljs-meta">@Override</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">add</span><span class="hljs-params">()</span> </span>&#123;
-        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span> + <span class="hljs-number">2</span>;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">matches</span><span class="hljs-params">(ConditionContext context, AnnotatedTypeMetadata metadata)</span> </span>&#123;
+
+        <span class="hljs-comment">// 获取到IOC使用的beanfactory</span>
+        ConfigurableListableBeanFactory beanFactory = context.getBeanFactory();
+        <span class="hljs-comment">// 获取类加载器</span>
+        ClassLoader classLoader = context.getClassLoader();
+        <span class="hljs-comment">// 获取当前环境信息</span>
+        Environment environment = context.getEnvironment();
+        <span class="hljs-comment">// 获取到bean定义的注册类</span>
+        BeanDefinitionRegistry registry = context.getRegistry();
+
+        String property = environment.getProperty(<span class="hljs-string">"os.name"</span>);
+        <span class="hljs-keyword">assert</span> property != <span class="hljs-keyword">null</span>;
+        <span class="hljs-keyword">return</span> property.contains(<span class="hljs-string">"Windows"</span>);
     &#125;
 &#125;</code></pre></div>
-<ol start="3">
-<li>接下来建立一个目标对象的代理类 <strong>AProxy</strong><div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AProxy</span> </span>&#123;
-    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> A target;
+<h4 id="LinuxCondition"><a href="#LinuxCondition" class="headerlink" title="LinuxCondition"></a>LinuxCondition</h4><div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">import</span> org.springframework.beans.factory.support.BeanDefinitionRegistry;
+<span class="hljs-keyword">import</span> org.springframework.context.annotation.Condition;
+<span class="hljs-keyword">import</span> org.springframework.context.annotation.ConditionContext;
+<span class="hljs-keyword">import</span> org.springframework.core.env.Environment;
+<span class="hljs-keyword">import</span> org.springframework.core.type.AnnotatedTypeMetadata;
 
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">AProxy</span><span class="hljs-params">(A target)</span> </span>&#123;
-        <span class="hljs-keyword">this</span>.target = target;
-    &#125;
+<span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@author</span> : lwj</span>
+<span class="hljs-comment"> * createTime  : 2020/7/2 17:20</span>
+<span class="hljs-comment"> * description : Reprint please indicate the source</span>
+<span class="hljs-comment"> * 判断是否是Linux系统</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">LinuxCondition</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Condition</span> </span>&#123;
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">matches</span><span class="hljs-params">(ConditionContext context, AnnotatedTypeMetadata metadata)</span> </span>&#123;
+        Environment environment = context.getEnvironment();
+        <span class="hljs-comment">// 获取到bean定义的注册类</span>
+        BeanDefinitionRegistry registry = context.getRegistry();
 
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">add</span><span class="hljs-params">()</span> </span>&#123;
-        System.out.println(<span class="hljs-string">"方法执行之前..."</span>);
-        System.out.println(target.add());
-        System.out.println(<span class="hljs-string">"方法执行之后..."</span>);
-        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
-    &#125;
-&#125;</code></pre></div></li>
-<li>运行 代理类中的 <strong>add</strong> 方法进行测试<br><img src="https://i.loli.net/2020/07/13/IWo8VOueqfNcSnm.png" srcset="/img/loading.gif" alt="image.png"></li>
-</ol>
-<p>结果在我们意料之中，这样就实现了一个简单的静态代理。</p>
-<h3 id="静态代理的缺陷"><a href="#静态代理的缺陷" class="headerlink" title="静态代理的缺陷"></a>静态代理的缺陷</h3><p>当在类少的时候还好，但是当你的项目中有成千上万个类时，你需要为每个类都写一个对应的代理类，这工作量太大了。</p>
-<p>我们能不能少写或者不写代理类，却能完成代理功能呢？接下来我们来介绍动态代理。</p>
-<h2 id="动态代理"><a href="#动态代理" class="headerlink" title="动态代理"></a>动态代理</h2><p>Java的动态代理可以动态的创建代理并动态的处理对所代理方法的调用。动态代理有两种实现方法，一种是使用JDK自带的，一种是使用Cglib实现。在这里就先聊聊JDK的动态代理是怎么实现的。</p>
-<p>JDK中提供了 <strong>invocationHandler</strong> 接口和 <strong>Proxy</strong> 类，借助这两个工具可以达到我们想要的效果。</p>
-<h3 id="InvocationHandler-接口"><a href="#InvocationHandler-接口" class="headerlink" title="InvocationHandler 接口"></a>InvocationHandler 接口</h3><p><strong>InvocationHandler</strong> 接口是 <strong>proxy</strong> 代理实例的调用处理程序实现的一个接口，每一个proxy代理实例都有一个关联的调用处理程序；在代理实例调用方法时，方法调用被编码分派到调用处理程序的invoke方法。</p>
-<h3 id="Proxy-类"><a href="#Proxy-类" class="headerlink" title="Proxy 类"></a>Proxy 类</h3><p><strong>Proxy</strong> 类就是用来创建一个代理对象的类，它提供了很多方法，但是我们最常用的是<strong>newProxyInstance</strong> 方法。</p>
-<p>下面我们先来看看代码</p>
-<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ProxyTest</span> </span>&#123;
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
-        ClassLoader classLoader = ProxyTest<span class="hljs-class">.<span class="hljs-keyword">class</span>.<span class="hljs-title">getClassLoader</span>()</span>;
-        Class&lt;?&gt;[] interfaces = &#123;A<span class="hljs-class">.<span class="hljs-keyword">class</span>&#125;</span>;
-        A aImpl = <span class="hljs-keyword">new</span> AImpl();
-        A aProxy = (A) Proxy.newProxyInstance(classLoader, interfaces, <span class="hljs-keyword">new</span> InvocationHandler() &#123;
-            <span class="hljs-meta">@Override</span>
-            <span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">invoke</span><span class="hljs-params">(Object proxy, Method method, Object[] args)</span> <span class="hljs-keyword">throws</span> Throwable </span>&#123;
-                Object result = <span class="hljs-keyword">null</span>;
-                System.out.println(<span class="hljs-string">"方法执行之前"</span>);
-                result = method.invoke(aImpl, args);
-                System.out.println(result);
-                System.out.println(<span class="hljs-string">"方法执行之后"</span>);
-                <span class="hljs-keyword">return</span> result;
-            &#125;
-        &#125;);
-        aProxy.add();
+        String property = environment.getProperty(<span class="hljs-string">"os.name"</span>);
+        <span class="hljs-keyword">assert</span> property != <span class="hljs-keyword">null</span>;
+        <span class="hljs-keyword">return</span> property.contains(<span class="hljs-string">"Linux"</span>);
     &#125;
 &#125;</code></pre></div>
-<p>上面这段代码是什么意思呢？</p>
-<ol>
-<li><p>首先我们可以调用 <strong>Proxy</strong> 类的 <strong>newProxyInstance</strong> 方法获取代理对象。查看源码可以看到该方法需要接收三个参数<br><img src="https://i.loli.net/2020/07/13/owTRJa1cFGzv48i.png" srcset="/img/loading.gif" alt="image.png"></p>
-<ul>
-<li>ClassLoader loader，类加载器， 随便找个类的加载器就可以</li>
-<li>Class&lt;?&gt;[] interfaces，目标对象实现的接口</li>
-<li>InvocationHandler h，传入一个实现了该接口的实现类</li>
-</ul>
-</li>
-<li><p>获取 <strong>Proxy.newProxyInstance(…)</strong> 创建的代理对象，调用其方法</p>
-</li>
-</ol>
-<p>来看结果：</p>
-<p><img src="https://i.loli.net/2020/07/13/jUCO2fWtHz69J4Z.png" srcset="/img/loading.gif" alt="image.png"></p>
-<p>完美！</p>
-<p>我们来分析一下整个流程：</p>
-<ol>
-<li>通过 <strong>Proxy.newProxyInstance(…)</strong> 获得代理对象</li>
-<li>代理对象调用 <strong>add</strong> 方法</li>
-<li>JVM通过将方法导向致 <strong>invoke</strong> 方法</li>
-<li>执行<strong>invoke</strong>方法，若有返回值则返回</li>
-</ol>
-<p><img src="https://i.loli.net/2020/07/13/XzclsrGQuFyEwZA.png" srcset="/img/loading.gif" alt="image.png"></p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ol>
-<li>静态代理实现较简单，代理类在编译期生成，效率高。缺点是会生成大量的代理类。</li>
-<li>JDK动态代理不要求代理类和委托类实现同一个接口，但是委托类需要实现接口，代理类需要实现InvocationHandler接口。</li>
-<li>动态代理要求代理类InvocationHandler接口，通过反射代理方法，比较消耗系统性能，但可以减少代理类的数量，使用更灵活。</li>
-</ol>
+
+<h4 id="在注册的bean上面加入-Condition注解"><a href="#在注册的bean上面加入-Condition注解" class="headerlink" title="在注册的bean上面加入@Condition注解"></a>在注册的bean上面加入@Condition注解</h4><div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">package</span> cn.lwjppz.config;
+
+<span class="hljs-keyword">import</span> cn.lwjppz.condition.LinuxCondition;
+<span class="hljs-keyword">import</span> cn.lwjppz.condition.WindowsCondition;
+<span class="hljs-keyword">import</span> cn.lwjppz.entites.User;
+<span class="hljs-keyword">import</span> org.springframework.context.annotation.Bean;
+<span class="hljs-keyword">import</span> org.springframework.context.annotation.Conditional;
+<span class="hljs-keyword">import</span> org.springframework.context.annotation.Configuration;
+
+<span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@author</span> : lwj</span>
+<span class="hljs-comment"> * createTime  : 2020/7/2 17:31</span>
+<span class="hljs-comment"> * description : Reprint please indicate the source</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-meta">@Configuration</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MainConfig3</span> </span>&#123;
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@Conditional</span>(&#123;Condition&#125;) 按照一定的条件进行判断，满足条件给容器中注册bean</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span>
+<span class="hljs-comment">     *</span>
+<span class="hljs-comment">     * 如果是 Windows 系统 则给容器注册 bill</span>
+<span class="hljs-comment">     * 如果是 Linux 系统，则注册 jack</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-meta">@Bean</span>(<span class="hljs-string">"bill"</span>)
+    <span class="hljs-meta">@Conditional</span>(WindowsCondition<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>
+<span class="hljs-class">    <span class="hljs-title">public</span> <span class="hljs-title">User</span> <span class="hljs-title">user01</span> () </span>&#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> User(<span class="hljs-number">2</span>, <span class="hljs-string">"Bill"</span>, <span class="hljs-number">62</span>);
+    &#125;
+
+    <span class="hljs-meta">@Bean</span>(<span class="hljs-string">"jack"</span>)
+    <span class="hljs-meta">@Conditional</span>(LinuxCondition<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>
+<span class="hljs-class">    <span class="hljs-title">public</span> <span class="hljs-title">User</span> <span class="hljs-title">user02</span> () </span>&#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> User(<span class="hljs-number">3</span>, <span class="hljs-string">"jack"</span>, <span class="hljs-number">22</span>);
+    &#125;
+&#125;</code></pre></div>
+<h4 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h4><p><img src="https://i.loli.net/2020/07/02/K4wAfZRiLVjbXv3.png" srcset="/img/loading.gif" alt="image.png"></p>
+<p>由于系统是Windows的，所以只给容器中加入了bill。</p>
+<h3 id="Import-给容器中导入组件"><a href="#Import-给容器中导入组件" class="headerlink" title="@Import - 给容器中导入组件"></a>@Import - 给容器中导入组件</h3><h4 id="新建一个Color类"><a href="#新建一个Color类" class="headerlink" title="新建一个Color类"></a>新建一个Color类</h4><div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Color</span> </span>&#123;
+&#125;</code></pre></div>
+
+<h4 id="加入-Import注解"><a href="#加入-Import注解" class="headerlink" title="加入@Import注解"></a>加入@Import注解</h4><div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">import</span> cn.lwjppz.condition.LinuxCondition;
+<span class="hljs-keyword">import</span> cn.lwjppz.condition.WindowsCondition;
+<span class="hljs-keyword">import</span> cn.lwjppz.entites.Color;
+<span class="hljs-keyword">import</span> cn.lwjppz.entites.User;
+<span class="hljs-keyword">import</span> org.springframework.context.annotation.Bean;
+<span class="hljs-keyword">import</span> org.springframework.context.annotation.Conditional;
+<span class="hljs-keyword">import</span> org.springframework.context.annotation.Configuration;
+<span class="hljs-keyword">import</span> org.springframework.context.annotation.Import;
+
+<span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@author</span> : lwj</span>
+<span class="hljs-comment"> * createTime  : 2020/7/2 17:31</span>
+<span class="hljs-comment"> * description : Reprint please indicate the source</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-meta">@Configuration</span>
+<span class="hljs-comment">// @Import 导入组件，id默认为组件的全类名</span>
+<span class="hljs-meta">@Import</span>(Color<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>
+<span class="hljs-class"><span class="hljs-title">public</span> <span class="hljs-title">class</span> <span class="hljs-title">MainConfig3</span> </span>&#123;
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@Conditional</span>(&#123;Condition&#125;) 按照一定的条件进行判断，满足条件给容器中注册bean</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span>
+<span class="hljs-comment">     *</span>
+<span class="hljs-comment">     * 如果是 Windows 系统 则给容器注册 bill</span>
+<span class="hljs-comment">     * 如果是 Linux 系统，则注册 jack</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-meta">@Bean</span>(<span class="hljs-string">"bill"</span>)
+    <span class="hljs-meta">@Conditional</span>(WindowsCondition<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>
+<span class="hljs-class">    <span class="hljs-title">public</span> <span class="hljs-title">User</span> <span class="hljs-title">user01</span> () </span>&#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> User(<span class="hljs-number">2</span>, <span class="hljs-string">"Bill"</span>, <span class="hljs-number">62</span>);
+    &#125;
+
+    <span class="hljs-meta">@Bean</span>(<span class="hljs-string">"jack"</span>)
+    <span class="hljs-meta">@Conditional</span>(LinuxCondition<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>
+<span class="hljs-class">    <span class="hljs-title">public</span> <span class="hljs-title">User</span> <span class="hljs-title">user02</span> () </span>&#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> User(<span class="hljs-number">3</span>, <span class="hljs-string">"jack"</span>, <span class="hljs-number">22</span>);
+    &#125;
+&#125;</code></pre></div>
+
+<h4 id="测试-1"><a href="#测试-1" class="headerlink" title="测试"></a>测试</h4><p><img src="https://ae01.alicdn.com/kf/H8ddb4400887d493fabfab45e8ee5a0962.jpg" srcset="/img/loading.gif" alt=""></p>
+<p>可见Color已被加入容器中</p>
 
             </article>
             <hr>
@@ -326,7 +379,7 @@
                   <div class="post-meta mr-3">
                     <i class="iconfont icon-category"></i>
                     
-                      <a class="hover-with-bg" href="/categories/Java/">Java</a>
+                      <a class="hover-with-bg" href="/categories/Spring/">Spring</a>
                     
                   </div>
                 
@@ -334,13 +387,9 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/%E4%BB%A3%E7%90%86/">代理</a>
+                      <a class="hover-with-bg" href="/tags/%E6%A1%86%E6%9E%B6/">框架</a>
                     
-                      <a class="hover-with-bg" href="/tags/Proxy/">Proxy</a>
-                    
-                      <a class="hover-with-bg" href="/tags/%E9%9D%99%E6%80%81%E4%BB%A3%E7%90%86/">静态代理</a>
-                    
-                      <a class="hover-with-bg" href="/tags/%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/">动态代理</a>
+                      <a class="hover-with-bg" href="/tags/Spring/">Spring</a>
                     
                   </div>
                 
@@ -353,12 +402,18 @@
                   <div class="post-prev col-6">
                     
                     
+                      <a href="/2020/07/13/Java%20-%20%E9%9D%99%E6%80%81%E4%BB%A3%E7%90%86%E5%92%8C%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Java - 静态代理和动态代理</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
                   </div>
                   <div class="post-next col-6">
                     
                     
-                      <a href="/2020/07/03/Spring%20-%20%E7%BB%84%E4%BB%B6%E6%B3%A8%E5%86%8C%EF%BC%88%E4%BA%8C%EF%BC%89/">
-                        <span class="hidden-mobile">Spring - 组件注册（二）</span>
+                      <a href="/2020/07/01/Spring%20-%20%E7%BB%84%E4%BB%B6%E6%B3%A8%E5%86%8C%EF%BC%88%E4%B8%80%EF%BC%89/">
+                        <span class="hidden-mobile">Spring - 组件注册（一）</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -555,7 +610,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "Java - 静态代理和动态代理&nbsp;",
+        "Spring - 组件注册（二）&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
