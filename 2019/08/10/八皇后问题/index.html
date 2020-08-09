@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="https://cdn.jsdelivr.net/gh/Bursteretion/file-repo/imgs/me.jpg">
+  <link rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/Bursteretion/file-repo/imgs/me.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="知足且坚定，温柔且上进">
+  <meta name="author" content="lwjppz">
+  <meta name="keywords" content="">
+  <title>八皇后问题 - 追尾巴的猫</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/atom-one-dark.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>追尾巴的猫</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('https://gitee.com/lwjppz/PictureBed/raw/master/img/u=980335101,1834953260&fm=26&gp=0.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2019-08-10 09:48">
+      2019年8月10日 上午
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      874 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      13
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>八皇后问题，是一个古老而著名的问题，是回溯算法的典型案例。该问题是国际西洋棋棋手马克斯·贝瑟尔于1848年提出：在8×8格的国际象棋上摆放八个皇后，使其不能互相攻击，即任意两个皇后都不能处于同一行、同一列或同一斜线上，问有多少种摆法。 高斯认为有76种方案。1854年在柏林的象棋杂志上不同的作者发表了40种不同的解，后来有人用图论的方法解出92种结果。计算机发明后，有多种计算机语言可以解决此问题。</p>
+<h3 id="官方给出的答案："><a href="#官方给出的答案：" class="headerlink" title="官方给出的答案："></a>官方给出的答案：</h3><div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Queen</span> </span>&#123;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span>[] column; <span class="hljs-comment">//同栏是否有皇后，1表示有</span>
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span>[] rup; <span class="hljs-comment">//右上至左下是否有皇后</span>
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span>[] lup; <span class="hljs-comment">//左上至右下是否有皇后</span>
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span>[] queen; <span class="hljs-comment">//解答</span>
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> num; <span class="hljs-comment">//解答编号</span>
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Queen</span><span class="hljs-params">()</span> </span>&#123;
+        column = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[<span class="hljs-number">8</span>+<span class="hljs-number">1</span>];
+        rup = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[(<span class="hljs-number">2</span>*<span class="hljs-number">8</span>)+<span class="hljs-number">1</span>];
+        lup = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[(<span class="hljs-number">2</span>*<span class="hljs-number">8</span>)+<span class="hljs-number">1</span>];
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= <span class="hljs-number">8</span>; i++)
+        column[i] = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= (<span class="hljs-number">2</span>*<span class="hljs-number">8</span>); i++)
+            rup[i] = lup[i] = <span class="hljs-number">0</span>;  <span class="hljs-comment">//初始定义全部无皇后</span>
+            queen = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[<span class="hljs-number">8</span>+<span class="hljs-number">1</span>];
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">backtrack</span><span class="hljs-params">(<span class="hljs-keyword">int</span> i)</span> </span>&#123;
+        <span class="hljs-keyword">if</span> (i &gt; <span class="hljs-number">8</span>) &#123;
+        showAnswer();
+        &#125; <span class="hljs-keyword">else</span> &#123;
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> j = <span class="hljs-number">1</span>; j &lt;= <span class="hljs-number">8</span>; j++) &#123;
+                <span class="hljs-keyword">if</span> ((column[j] == <span class="hljs-number">0</span>) &amp;&amp; (rup[i+j] == <span class="hljs-number">0</span>) &amp;&amp; (lup[i-j+<span class="hljs-number">8</span>] == <span class="hljs-number">0</span>)) &#123;
+                    <span class="hljs-comment">//若无皇后</span>
+                    queen[i] = j; <span class="hljs-comment">//设定为占用</span>
+                    column[j] = rup[i+j] = lup[i-j+<span class="hljs-number">8</span>] = <span class="hljs-number">1</span>;
+                    backtrack(i+<span class="hljs-number">1</span>);  <span class="hljs-comment">//循环调用</span>
+                    column[j] = rup[i+j] = lup[i-j+<span class="hljs-number">8</span>] = <span class="hljs-number">0</span>;
+                &#125;
+            &#125;
+        &#125;
+    &#125;
+
+
+
+    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">showAnswer</span><span class="hljs-params">()</span> </span>&#123;
+        num++;
+        System.out.println(<span class="hljs-string">"      第"</span>+num+<span class="hljs-string">"种"</span>);
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> y = <span class="hljs-number">1</span>; y &lt;= <span class="hljs-number">8</span>; y++) &#123;
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> x = <span class="hljs-number">1</span>; x &lt;= <span class="hljs-number">8</span>; x++) &#123;
+                <span class="hljs-keyword">if</span>(queen[y]==x) &#123;
+                    System.out.print(<span class="hljs-string">"♛ "</span>);
+                &#125; <span class="hljs-keyword">else</span> &#123;
+                    System.out.print(<span class="hljs-string">"✚ "</span>);
+                &#125;
+            &#125;
+        System.out.println();
+        &#125;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        Queen queen = <span class="hljs-keyword">new</span> Queen();
+        <span class="hljs-keyword">long</span> startTime = System.currentTimeMillis();    <span class="hljs-comment">//获取开始时间</span>
+        queen.backtrack(<span class="hljs-number">1</span>);
+        <span class="hljs-keyword">long</span> endTime = System.currentTimeMillis();    <span class="hljs-comment">//获取结束时间</span>
+        System.out.println(<span class="hljs-string">"共用时"</span>+(endTime-startTime)+<span class="hljs-string">"ms"</span>);
+    &#125;
+&#125;</code></pre></div>
+
+<h3 id="运行结果："><a href="#运行结果：" class="headerlink" title="运行结果："></a>运行结果：</h3><div class="hljs"><pre><code class="hljs java">      第<span class="hljs-number">1</span>种                            第<span class="hljs-number">2</span>种                       第<span class="hljs-number">3</span>种
+♛ ✚ ✚ ✚ ✚ ✚ ✚ ✚  ♛ ✚ ✚ ✚ ✚ ✚ ✚ ✚  ♛ ✚ ✚ ✚ ✚ ✚ ✚ ✚ 
+✚ ✚ ✚ ✚ ♛ ✚ ✚ ✚  ✚ ✚ ✚ ✚ ✚ ♛ ✚ ✚  ✚ ✚ ✚ ✚ ✚ ✚ ♛ ✚ 
+✚ ✚ ✚ ✚ ✚ ✚ ✚ ♛  ✚ ✚ ✚ ✚ ✚ ✚ ✚ ♛  ✚ ✚ ✚ ♛ ✚ ✚ ✚ ✚ 
+✚ ✚ ✚ ✚ ✚ ♛ ✚ ✚  ✚ ✚ ♛ ✚ ✚ ✚ ✚ ✚  ✚ ✚ ✚ ✚ ✚ ♛ ✚ ✚ 
+✚ ✚ ♛ ✚ ✚ ✚ ✚ ✚  ✚ ✚ ✚ ✚ ✚ ✚ ♛ ✚  ✚ ✚ ✚ ✚ ✚ ✚ ✚ ♛ 
+✚ ✚ ✚ ✚ ✚ ✚ ♛ ✚  ✚ ✚ ✚ ♛ ✚ ✚ ✚ ✚  ✚ ♛ ✚ ✚ ✚ ✚ ✚ ✚ 
+✚ ♛ ✚ ✚ ✚ ✚ ✚ ✚  ✚ ♛ ✚ ✚ ✚ ✚ ✚ ✚  ✚ ✚ ✚ ✚ ♛ ✚ ✚ ✚ 
+✚ ✚ ✚ ♛ ✚ ✚ ✚ ✚  ✚ ✚ ✚ ✚ ♛ ✚ ✚ ✚  ✚ ✚ ♛ ✚ ✚ ✚ ✚ ✚ 
+  第<span class="hljs-number">4</span>种                                第<span class="hljs-number">5</span>种                       第<span class="hljs-number">6</span>种
+♛ ✚ ✚ ✚ ✚ ✚ ✚ ✚  ✚ ♛ ✚ ✚ ✚ ✚ ✚ ✚  ✚ ♛ ✚ ✚ ✚ ✚ ✚ ✚ 
+✚ ✚ ✚ ✚ ✚ ✚ ♛ ✚  ✚ ✚ ✚ ♛ ✚ ✚ ✚ ✚  ✚ ✚ ✚ ✚ ♛ ✚ ✚ ✚ 
+✚ ✚ ✚ ✚ ♛ ✚ ✚ ✚  ✚ ✚ ✚ ✚ ✚ ♛ ✚ ✚  ✚ ✚ ✚ ✚ ✚ ✚ ♛ ✚ 
+✚ ✚ ✚ ✚ ✚ ✚ ✚ ♛  ✚ ✚ ✚ ✚ ✚ ✚ ✚ ♛  ♛ ✚ ✚ ✚ ✚ ✚ ✚ ✚ 
+✚ ♛ ✚ ✚ ✚ ✚ ✚ ✚  ✚ ✚ ♛ ✚ ✚ ✚ ✚ ✚  ✚ ✚ ♛ ✚ ✚ ✚ ✚ ✚ 
+✚ ✚ ✚ ♛ ✚ ✚ ✚ ✚  ♛ ✚ ✚ ✚ ✚ ✚ ✚ ✚  ✚ ✚ ✚ ✚ ✚ ✚ ✚ ♛ 
+✚ ✚ ✚ ✚ ✚ ♛ ✚ ✚  ✚ ✚ ✚ ✚ ✚ ✚ ♛ ✚  ✚ ✚ ✚ ✚ ✚ ♛ ✚ ✚ 
+✚ ✚ ♛ ✚ ✚ ✚ ✚ ✚  ✚ ✚ ✚ ✚ ♛ ✚ ✚ ✚  ✚ ✚ ✚ ♛ ✚ ✚ ✚ ✚ 
+.................................................
+      第<span class="hljs-number">87</span>种                            第<span class="hljs-number">88</span>种                   第<span class="hljs-number">89</span>种
+✚ ✚ ✚ ✚ ✚ ✚ ♛ ✚  ✚ ✚ ✚ ✚ ✚ ✚ ♛ ✚  ✚ ✚ ✚ ✚ ✚ ✚ ✚ ♛ 
+✚ ✚ ✚ ♛ ✚ ✚ ✚ ✚  ✚ ✚ ✚ ✚ ♛ ✚ ✚ ✚  ✚ ♛ ✚ ✚ ✚ ✚ ✚ ✚ 
+✚ ♛ ✚ ✚ ✚ ✚ ✚ ✚  ✚ ✚ ♛ ✚ ✚ ✚ ✚ ✚  ✚ ✚ ✚ ♛ ✚ ✚ ✚ ✚ 
+✚ ✚ ✚ ✚ ✚ ✚ ✚ ♛  ♛ ✚ ✚ ✚ ✚ ✚ ✚ ✚  ♛ ✚ ✚ ✚ ✚ ✚ ✚ ✚ 
+✚ ✚ ✚ ✚ ✚ ♛ ✚ ✚  ✚ ✚ ✚ ✚ ✚ ♛ ✚ ✚  ✚ ✚ ✚ ✚ ✚ ✚ ♛ ✚ 
+♛ ✚ ✚ ✚ ✚ ✚ ✚ ✚  ✚ ✚ ✚ ✚ ✚ ✚ ✚ ♛  ✚ ✚ ✚ ✚ ♛ ✚ ✚ ✚ 
+✚ ✚ ♛ ✚ ✚ ✚ ✚ ✚  ✚ ♛ ✚ ✚ ✚ ✚ ✚ ✚  ✚ ✚ ♛ ✚ ✚ ✚ ✚ ✚ 
+✚ ✚ ✚ ✚ ♛ ✚ ✚ ✚  ✚ ✚ ✚ ♛ ✚ ✚ ✚ ✚  ✚ ✚ ✚ ✚ ✚ ♛ ✚ ✚ 
+      第<span class="hljs-number">90</span>种                            第<span class="hljs-number">91</span>种                   第<span class="hljs-number">92</span>种
+✚ ✚ ✚ ✚ ✚ ✚ ✚ ♛  ✚ ✚ ✚ ✚ ✚ ✚ ✚ ♛  ✚ ✚ ✚ ✚ ✚ ✚ ✚ ♛ 
+✚ ♛ ✚ ✚ ✚ ✚ ✚ ✚  ✚ ✚ ♛ ✚ ✚ ✚ ✚ ✚  ✚ ✚ ✚ ♛ ✚ ✚ ✚ ✚ 
+✚ ✚ ✚ ✚ ♛ ✚ ✚ ✚  ♛ ✚ ✚ ✚ ✚ ✚ ✚ ✚  ♛ ✚ ✚ ✚ ✚ ✚ ✚ ✚ 
+✚ ✚ ♛ ✚ ✚ ✚ ✚ ✚  ✚ ✚ ✚ ✚ ✚ ♛ ✚ ✚  ✚ ✚ ♛ ✚ ✚ ✚ ✚ ✚ 
+♛ ✚ ✚ ✚ ✚ ✚ ✚ ✚  ✚ ♛ ✚ ✚ ✚ ✚ ✚ ✚  ✚ ✚ ✚ ✚ ✚ ♛ ✚ ✚ 
+✚ ✚ ✚ ✚ ✚ ✚ ♛ ✚  ✚ ✚ ✚ ✚ ♛ ✚ ✚ ✚  ✚ ♛ ✚ ✚ ✚ ✚ ✚ ✚ 
+✚ ✚ ✚ ♛ ✚ ✚ ✚ ✚  ✚ ✚ ✚ ✚ ✚ ✚ ♛ ✚  ✚ ✚ ✚ ✚ ✚ ✚ ♛ ✚ 
+✚ ✚ ✚ ✚ ✚ ♛ ✚ ✚  ✚ ✚ ✚ ♛ ✚ ✚ ✚ ✚  ✚ ✚ ✚ ✚ ♛ ✚ ✚ ✚ 
+
+总共用时<span class="hljs-number">46</span>ms</code></pre></div>
+
+<h2 id="我自己的："><a href="#我自己的：" class="headerlink" title="我自己的："></a>我自己的：</h2><div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">package</span> lwj.ppz.Main.栈;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> 八皇后 </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        eightQueens e = <span class="hljs-keyword">new</span> eightQueens();
+        <span class="hljs-keyword">long</span> startTime = System.currentTimeMillis();    <span class="hljs-comment">//获取开始时间</span>
+        e.solution(<span class="hljs-number">0</span>);
+        <span class="hljs-keyword">long</span> endTime = System.currentTimeMillis();    <span class="hljs-comment">//获取结束时间</span>
+        System.out.println(<span class="hljs-string">"共用时"</span>+(endTime-startTime)+<span class="hljs-string">"ms"</span>);
+    &#125;
+&#125;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">eightQueens</span> </span>&#123;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span>[] res;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> index;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> p;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">eightQueens</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">this</span>.res = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[<span class="hljs-number">8</span>];
+        <span class="hljs-keyword">this</span>.index = <span class="hljs-number">1</span>;
+        <span class="hljs-keyword">this</span>.p = <span class="hljs-number">0</span>;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">solution</span><span class="hljs-params">(<span class="hljs-keyword">int</span> count)</span> </span>&#123;
+        <span class="hljs-keyword">if</span> (count == <span class="hljs-number">8</span>) &#123;
+            print();
+            <span class="hljs-keyword">return</span>;
+        &#125;
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">8</span>; i++) &#123;
+            res[count] = i;
+            <span class="hljs-keyword">if</span> (Judge(count)) &#123;
+            solution(count + <span class="hljs-number">1</span>);
+            &#125;
+        &#125;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">Judge</span><span class="hljs-params">(<span class="hljs-keyword">int</span> n)</span> </span>&#123;
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) &#123;
+            <span class="hljs-keyword">if</span> (res[i] == res[n] || Math.abs(n - i) == Math.abs(res[n] - res[i])) &#123;
+                <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;
+            &#125;
+        &#125;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Init</span><span class="hljs-params">(<span class="hljs-keyword">int</span> [][]map)</span></span>&#123;
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;map.length;i++)&#123;
+            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j=<span class="hljs-number">0</span>;j&lt;map[<span class="hljs-number">0</span>].length;j++)&#123;
+                map[i][j]=<span class="hljs-number">0</span>;
+            &#125;
+        &#125;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">print</span><span class="hljs-params">()</span> </span>&#123;
+        System.out.println(<span class="hljs-string">"      第"</span>+index+<span class="hljs-string">"种"</span>);
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">8</span>; i++) &#123;
+            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j=<span class="hljs-number">0</span>;j&lt;<span class="hljs-number">8</span>;j++)&#123;
+                <span class="hljs-keyword">if</span>(res[i]==j)&#123;
+                    System.out.print(<span class="hljs-string">"♛ "</span>);
+                &#125;<span class="hljs-keyword">else</span>&#123;
+                    System.out.print(<span class="hljs-string">"✚ "</span>);
+                &#125;
+            &#125;
+            System.out.println();
+        &#125;
+        index++;
+    &#125;
+&#125;</code></pre></div>
+
+<h3 id="运行结果"><a href="#运行结果" class="headerlink" title="运行结果"></a>运行结果</h3><div class="hljs"><pre><code class="hljs java">      第<span class="hljs-number">1</span>种                            第<span class="hljs-number">2</span>种                       第<span class="hljs-number">3</span>种
+♛ ✚ ✚ ✚ ✚ ✚ ✚ ✚  ♛ ✚ ✚ ✚ ✚ ✚ ✚ ✚  ♛ ✚ ✚ ✚ ✚ ✚ ✚ ✚ 
+✚ ✚ ✚ ✚ ♛ ✚ ✚ ✚  ✚ ✚ ✚ ✚ ✚ ♛ ✚ ✚  ✚ ✚ ✚ ✚ ✚ ✚ ♛ ✚ 
+✚ ✚ ✚ ✚ ✚ ✚ ✚ ♛  ✚ ✚ ✚ ✚ ✚ ✚ ✚ ♛  ✚ ✚ ✚ ♛ ✚ ✚ ✚ ✚ 
+✚ ✚ ✚ ✚ ✚ ♛ ✚ ✚  ✚ ✚ ♛ ✚ ✚ ✚ ✚ ✚  ✚ ✚ ✚ ✚ ✚ ♛ ✚ ✚ 
+✚ ✚ ♛ ✚ ✚ ✚ ✚ ✚  ✚ ✚ ✚ ✚ ✚ ✚ ♛ ✚  ✚ ✚ ✚ ✚ ✚ ✚ ✚ ♛ 
+✚ ✚ ✚ ✚ ✚ ✚ ♛ ✚  ✚ ✚ ✚ ♛ ✚ ✚ ✚ ✚  ✚ ♛ ✚ ✚ ✚ ✚ ✚ ✚ 
+✚ ♛ ✚ ✚ ✚ ✚ ✚ ✚  ✚ ♛ ✚ ✚ ✚ ✚ ✚ ✚  ✚ ✚ ✚ ✚ ♛ ✚ ✚ ✚ 
+✚ ✚ ✚ ♛ ✚ ✚ ✚ ✚  ✚ ✚ ✚ ✚ ♛ ✚ ✚ ✚  ✚ ✚ ♛ ✚ ✚ ✚ ✚ ✚ 
+  第<span class="hljs-number">4</span>种                                第<span class="hljs-number">5</span>种                       第<span class="hljs-number">6</span>种
+♛ ✚ ✚ ✚ ✚ ✚ ✚ ✚  ✚ ♛ ✚ ✚ ✚ ✚ ✚ ✚  ✚ ♛ ✚ ✚ ✚ ✚ ✚ ✚ 
+✚ ✚ ✚ ✚ ✚ ✚ ♛ ✚  ✚ ✚ ✚ ♛ ✚ ✚ ✚ ✚  ✚ ✚ ✚ ✚ ♛ ✚ ✚ ✚ 
+✚ ✚ ✚ ✚ ♛ ✚ ✚ ✚  ✚ ✚ ✚ ✚ ✚ ♛ ✚ ✚  ✚ ✚ ✚ ✚ ✚ ✚ ♛ ✚ 
+✚ ✚ ✚ ✚ ✚ ✚ ✚ ♛  ✚ ✚ ✚ ✚ ✚ ✚ ✚ ♛  ♛ ✚ ✚ ✚ ✚ ✚ ✚ ✚ 
+✚ ♛ ✚ ✚ ✚ ✚ ✚ ✚  ✚ ✚ ♛ ✚ ✚ ✚ ✚ ✚  ✚ ✚ ♛ ✚ ✚ ✚ ✚ ✚ 
+✚ ✚ ✚ ♛ ✚ ✚ ✚ ✚  ♛ ✚ ✚ ✚ ✚ ✚ ✚ ✚  ✚ ✚ ✚ ✚ ✚ ✚ ✚ ♛ 
+✚ ✚ ✚ ✚ ✚ ♛ ✚ ✚  ✚ ✚ ✚ ✚ ✚ ✚ ♛ ✚  ✚ ✚ ✚ ✚ ✚ ♛ ✚ ✚ 
+✚ ✚ ♛ ✚ ✚ ✚ ✚ ✚  ✚ ✚ ✚ ✚ ♛ ✚ ✚ ✚  ✚ ✚ ✚ ♛ ✚ ✚ ✚ ✚ 
+.................................................
+      第<span class="hljs-number">87</span>种                        第<span class="hljs-number">88</span>种                       第<span class="hljs-number">89</span>种
+✚ ✚ ✚ ✚ ✚ ✚ ♛ ✚  ✚ ✚ ✚ ✚ ✚ ✚ ♛ ✚  ✚ ✚ ✚ ✚ ✚ ✚ ✚ ♛ 
+✚ ✚ ✚ ♛ ✚ ✚ ✚ ✚  ✚ ✚ ✚ ✚ ♛ ✚ ✚ ✚  ✚ ♛ ✚ ✚ ✚ ✚ ✚ ✚ 
+✚ ♛ ✚ ✚ ✚ ✚ ✚ ✚  ✚ ✚ ♛ ✚ ✚ ✚ ✚ ✚  ✚ ✚ ✚ ♛ ✚ ✚ ✚ ✚ 
+✚ ✚ ✚ ✚ ✚ ✚ ✚ ♛  ♛ ✚ ✚ ✚ ✚ ✚ ✚ ✚  ♛ ✚ ✚ ✚ ✚ ✚ ✚ ✚ 
+✚ ✚ ✚ ✚ ✚ ♛ ✚ ✚  ✚ ✚ ✚ ✚ ✚ ♛ ✚ ✚  ✚ ✚ ✚ ✚ ✚ ✚ ♛ ✚ 
+♛ ✚ ✚ ✚ ✚ ✚ ✚ ✚  ✚ ✚ ✚ ✚ ✚ ✚ ✚ ♛  ✚ ✚ ✚ ✚ ♛ ✚ ✚ ✚ 
+✚ ✚ ♛ ✚ ✚ ✚ ✚ ✚  ✚ ♛ ✚ ✚ ✚ ✚ ✚ ✚  ✚ ✚ ♛ ✚ ✚ ✚ ✚ ✚ 
+✚ ✚ ✚ ✚ ♛ ✚ ✚ ✚  ✚ ✚ ✚ ♛ ✚ ✚ ✚ ✚  ✚ ✚ ✚ ✚ ✚ ♛ ✚ ✚ 
+      第<span class="hljs-number">90</span>种                        第<span class="hljs-number">91</span>种                       第<span class="hljs-number">92</span>种
+✚ ✚ ✚ ✚ ✚ ✚ ✚ ♛  ✚ ✚ ✚ ✚ ✚ ✚ ✚ ♛  ✚ ✚ ✚ ✚ ✚ ✚ ✚ ♛ 
+✚ ♛ ✚ ✚ ✚ ✚ ✚ ✚  ✚ ✚ ♛ ✚ ✚ ✚ ✚ ✚  ✚ ✚ ✚ ♛ ✚ ✚ ✚ ✚ 
+✚ ✚ ✚ ✚ ♛ ✚ ✚ ✚  ♛ ✚ ✚ ✚ ✚ ✚ ✚ ✚  ♛ ✚ ✚ ✚ ✚ ✚ ✚ ✚ 
+✚ ✚ ♛ ✚ ✚ ✚ ✚ ✚  ✚ ✚ ✚ ✚ ✚ ♛ ✚ ✚  ✚ ✚ ♛ ✚ ✚ ✚ ✚ ✚ 
+♛ ✚ ✚ ✚ ✚ ✚ ✚ ✚  ✚ ♛ ✚ ✚ ✚ ✚ ✚ ✚  ✚ ✚ ✚ ✚ ✚ ♛ ✚ ✚ 
+✚ ✚ ✚ ✚ ✚ ✚ ♛ ✚  ✚ ✚ ✚ ✚ ♛ ✚ ✚ ✚  ✚ ♛ ✚ ✚ ✚ ✚ ✚ ✚ 
+✚ ✚ ✚ ♛ ✚ ✚ ✚ ✚  ✚ ✚ ✚ ✚ ✚ ✚ ♛ ✚  ✚ ✚ ✚ ✚ ✚ ✚ ♛ ✚ 
+✚ ✚ ✚ ✚ ✚ ♛ ✚ ✚  ✚ ✚ ✚ ♛ ✚ ✚ ✚ ✚  ✚ ✚ ✚ ✚ ♛ ✚ ✚ ✚ 
+
+总共用时<span class="hljs-number">45</span>ms</code></pre></div>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>其实不管是我的还是官方的都是用了递归加回溯来解决的，主要注意的是<strong>怎么判断两个皇后不在同一行，同一列，同一条斜线上</strong>。这点需要注意。</p>
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E7%AE%97%E6%B3%95/">算法</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/08/10/%E9%A9%AC%E8%B8%8F%E6%A3%8B%E7%9B%98%EF%BC%88%E9%AA%91%E5%A3%AB%E5%91%A8%E6%B8%B8%E9%97%AE%E9%A2%98%EF%BC%89/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">马踏棋盘（骑士周游问题）</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <div class="comments" id="comments">
+                
+                
+  <div id="vcomments"></div>
+  <script type="text/javascript">
+    function loadValine() {
+      addScript('https://cdn.staticfile.org/valine/1.4.14/Valine.min.js', function () {
+        new Valine({
+          el: "#vcomments",
+          app_id: "YewWjRD17w1tEA3i1HFhfPaH-gzGzoHsz",
+          app_key: "bo1KW4tI4AB9hnl9VC1dnFjt",
+          placeholder: "说点什么",
+          path: window.location.pathname,
+          avatar: "retro",
+          meta: ["nick","mail","link"],
+          pageSize: "10",
+          lang: "zh-CN",
+          highlight: true,
+          recordIP: false,
+          serverURLs: "",
+        });
+      });
+    }
+    createObserver(loadValine, 'vcomments');
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://valine.js.org" target="_blank" rel="nofollow noopener noopener">comments
+      powered by Valine.</a></noscript>
+
+
+              </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问数 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总 
+            <span id="busuanzi_value_site_uv"></span>
+             人访问
+          </span>
+      
+    
+  </div>
+
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "八皇后问题&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: true,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.staticfile.org/mathjax/3.0.5/es5/tex-svg.js" ></script>
+
+  
+
+
+
+  
+  
+    <script>
+      !function (e, t, a) {
+        function r() {
+          for (var e = 0; e < s.length; e++) s[e].alpha <= 0 ? (t.body.removeChild(s[e].el), s.splice(e, 1)) : (s[e].y--, s[e].scale += .004, s[e].alpha -= .013, s[e].el.style.cssText = "left:" + s[e].x + "px;top:" + s[e].y + "px;opacity:" + s[e].alpha + ";transform:scale(" + s[e].scale + "," + s[e].scale + ") rotate(45deg);background:" + s[e].color + ";z-index:99999");
+          requestAnimationFrame(r)
+        }
+
+        function n() {
+          var t = "function" == typeof e.onclick && e.onclick;
+          e.onclick = function (e) {
+            t && t(), o(e)
+          }
+        }
+
+        function o(e) {
+          var a = t.createElement("div");
+          a.className = "heart", s.push({
+            el: a,
+            x: e.clientX - 5,
+            y: e.clientY - 5,
+            scale: 1,
+            alpha: 1,
+            color: c()
+          }), t.body.appendChild(a)
+        }
+
+        function i(e) {
+          var a = t.createElement("style");
+          a.type = "text/css";
+          try {
+            a.appendChild(t.createTextNode(e))
+          } catch (t) {
+            a.styleSheet.cssText = e
+          }
+          t.getElementsByTagName("head")[0].appendChild(a)
+        }
+
+        function c() {
+          return "rgb(" + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + ")"
+        }
+
+        var s = [];
+        e.requestAnimationFrame = e.requestAnimationFrame || e.webkitRequestAnimationFrame || e.mozRequestAnimationFrame || e.oRequestAnimationFrame || e.msRequestAnimationFrame || function (e) {
+          setTimeout(e, 1e3 / 60)
+        }, i(".heart{width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: fixed;}.heart:after{top: -5px;}.heart:before{left: -5px;}"), n(), r()
+      }(window, document);
+    </script>
+  
+
+
+
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/mermaid/8.5.0/mermaid.min.js" ></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize({"theme":"default"});
+    }
+  </script>
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="https://cdn.jsdelivr.net/gh/Bursteretion/file-repo/imgs/me.jpg">
+  <link rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/Bursteretion/file-repo/imgs/me.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="知足且坚定，温柔且上进">
+  <meta name="author" content="lwjppz">
+  <meta name="keywords" content="">
+  <title>LeetCode-第 18 场双周赛 - 追尾巴的猫</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/atom-one-dark.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>追尾巴的猫</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('https://gitee.com/lwjppz/PictureBed/raw/master/img/LeetCode-第18场双周赛_1581221276925.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2020-01-26 10:14">
+      2020年1月26日 上午
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.4k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      19
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <h2 id="1-数组序号转换"><a href="#1-数组序号转换" class="headerlink" title="1.数组序号转换"></a>1.数组序号转换</h2><h4 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h4><p>给你一个整数数组 arr ，请你将数组中的每个元素替换为它们排序后的序号。</p>
+<p>序号代表了一个元素有多大。序号编号的规则如下：</p>
+<p>序号从 1 开始编号。<br>一个元素越大，那么序号越大。如果两个元素相等，那么它们的序号相同。<br>每个数字的序号都应该尽可能地小。</p>
+<p>示例 1：</p>
+<div class="hljs"><pre><code class="hljs text">输入：arr &#x3D; [40,10,20,30]
+输出：[4,1,2,3]
+解释：40 是最大的元素。 10 是最小的元素。 20 是第二小的数字。 30 是第三小的数字。</code></pre></div>
+
+<p>示例 2：</p>
+<div class="hljs"><pre><code class="hljs text">输入：arr &#x3D; [100,100,100]
+输出：[1,1,1]
+解释：所有元素有相同的序号。</code></pre></div>
+
+<p>示例 3：</p>
+<div class="hljs"><pre><code class="hljs text">输入：arr &#x3D; [37,12,28,9,100,56,80,5,12]
+输出：[5,3,4,2,8,6,7,1,3]</code></pre></div>
+
+<p>提示：</p>
+<blockquote>
+<p>0 &lt;= arr.length &lt;= 105<br>-109 &lt;= arr[i] &lt;= 109</p>
+</blockquote>
+<h3 id="个人思路"><a href="#个人思路" class="headerlink" title="个人思路"></a>个人思路</h3><ul>
+<li>先开个一维数组ar复制一遍arr的元素</li>
+<li>排序原数组</li>
+<li>用<strong>map</strong>记录排序后各元素的位置（用map能保证元素不重复且序号是唯一的）</li>
+<li>再遍历一遍ar数组，依次取出map中与ar[i]对应的value值</li>
+</ul>
+<h4 id="AC代码"><a href="#AC代码" class="headerlink" title="AC代码"></a>AC代码</h4><div class="hljs"><pre><code class="hljs java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> </span>&#123;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span>[] arrayRankTransform(<span class="hljs-keyword">int</span>[] arr) &#123;
+        <span class="hljs-keyword">int</span> []ar = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span> [arr.length];
+        Map&lt;Integer, Integer&gt; map = <span class="hljs-keyword">new</span> HashMap&lt;Integer, Integer&gt;();
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; arr.length; i++) &#123;
+            ar[i] = arr[i];
+        &#125;
+        Arrays.sort(arr);
+        <span class="hljs-keyword">int</span> index = <span class="hljs-number">1</span>;
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; arr.length; i++) &#123;
+            <span class="hljs-keyword">if</span> (map.get(arr[i]) == <span class="hljs-keyword">null</span>) &#123;
+                map.put(arr[i], index++);
+            &#125;
+        &#125;
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; ar.length; i++) &#123;
+            ar[i] = map.get(ar[i]);
+        &#125;
+        <span class="hljs-keyword">return</span> ar;
+    &#125;
+&#125;</code></pre></div>
+
+<p>题目链接：<a href="https://leetcode-cn.com/problems/rank-transform-of-an-array" target="_blank" rel="noopener">https://leetcode-cn.com/problems/rank-transform-of-an-array</a></p>
+<hr>
+<h2 id="2-破坏回文串"><a href="#2-破坏回文串" class="headerlink" title="2.破坏回文串"></a>2.破坏回文串</h2><h4 id="题目描述-1"><a href="#题目描述-1" class="headerlink" title="题目描述"></a>题目描述</h4><p>给你一个回文字符串 palindrome ，请你将其中 一个 字符用任意小写英文字母替换，使得结果字符串的字典序最小，且 不是 回文串。</p>
+<p>请你返回结果字符串。如果无法做到，则返回一个空串。</p>
+<p>示例 1：</p>
+<div class="hljs"><pre><code class="hljs text">输入：palindrome &#x3D; &quot;abccba&quot;
+输出：&quot;aaccba&quot;</code></pre></div>
+
+<p>示例 2：</p>
+<div class="hljs"><pre><code class="hljs text">输入：palindrome &#x3D; &quot;a&quot;
+输出：&quot;&quot;</code></pre></div>
+
+<p>提示：</p>
+<blockquote>
+<ul>
+<li>1 &lt;= palindrome.length &lt;= 1000</li>
+<li>palindrome 只包含小写英文字母。</li>
+</ul>
+</blockquote>
+<h3 id="个人思路-1"><a href="#个人思路-1" class="headerlink" title="个人思路"></a>个人思路</h3><p>暴力枚举，由于回文串长度只有1000，那么将每个位置的字符依次替换成26个小写字母，判断替换后是否还是回文串，不是的话，加入集合，最后对集合进行排序，取出第一个就是字典序最小的</p>
+<h4 id="AC代码-1"><a href="#AC代码-1" class="headerlink" title="AC代码"></a>AC代码</h4><div class="hljs"><pre><code class="hljs java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">breakPalindrome</span><span class="hljs-params">(String palindrome)</span> </span>&#123;
+        <span class="hljs-keyword">if</span> (palindrome == <span class="hljs-keyword">null</span> || palindrome == <span class="hljs-string">""</span> || palindrome.length() == <span class="hljs-number">1</span>) &#123;
+            <span class="hljs-keyword">return</span> <span class="hljs-string">""</span>;
+        &#125;
+        StringBuffer sb = <span class="hljs-keyword">new</span> StringBuffer();
+        List&lt;String&gt; list = <span class="hljs-keyword">new</span> ArrayList&lt;String&gt;();
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; palindrome.length(); i++) &#123;
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> j = <span class="hljs-number">1</span>; j &lt;= <span class="hljs-number">26</span>; j++) &#123;
+                <span class="hljs-keyword">char</span> ch = (<span class="hljs-keyword">char</span>)(<span class="hljs-number">96</span> + j);
+                String s = sb.append(palindrome.substring(<span class="hljs-number">0</span>, i)).append(ch).append(palindrome.substring(i + <span class="hljs-number">1</span>, palindrome.length())).toString();
+                <span class="hljs-keyword">if</span> (!isPalindrome(s)) &#123;
+                    list.add(s);
+                &#125;
+                sb.setLength(<span class="hljs-number">0</span>);
+            &#125;
+        &#125;
+        Collections.sort(list);
+        <span class="hljs-keyword">return</span> list.get(<span class="hljs-number">0</span>);
+    &#125;
+    
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">isPalindrome</span><span class="hljs-params">(String s)</span> </span>&#123;
+        StringBuffer sb = <span class="hljs-keyword">new</span> StringBuffer();
+        <span class="hljs-keyword">return</span> sb.append(s).reverse().toString().equals(s);
+    &#125;
+&#125;</code></pre></div>
+
+<p>题目链接：<a href="https://leetcode-cn.com/problems/break-a-palindrome/" target="_blank" rel="noopener">https://leetcode-cn.com/problems/break-a-palindrome/</a></p>
+<hr>
+<h2 id="3-将矩阵按对角线排序"><a href="#3-将矩阵按对角线排序" class="headerlink" title="3.将矩阵按对角线排序"></a>3.将矩阵按对角线排序</h2><h4 id="题目描述-2"><a href="#题目描述-2" class="headerlink" title="题目描述"></a>题目描述</h4><p>给你一个 m * n 的整数矩阵 mat ，请你将同一条对角线上的元素（从左上到右下）按升序排序后，返回排好序的矩阵。</p>
+<h5 id="示例-1："><a href="#示例-1：" class="headerlink" title="示例 1："></a>示例 1：</h5><p><img src="https://www.lwjppz.cn/upload/2020/1/image-00d5bc3ed9a24c6c9f4d6c5d24ea66bd.png" srcset="/img/loading.gif" alt=""></p>
+<h4 id="输入"><a href="#输入" class="headerlink" title="输入"></a>输入</h4><div class="hljs"><pre><code class="hljs text">输入：mat &#x3D; [[3,3,1,1],[2,2,1,2],[1,1,1,2]]
+输出：[[1,1,1,1],[1,2,2,2],[1,2,3,3]]</code></pre></div>
+<h4 id="提示"><a href="#提示" class="headerlink" title="提示"></a>提示</h4><blockquote>
+<ul>
+<li>m == mat.length</li>
+<li>n == mat[i].length</li>
+<li>1 &lt;= m, n &lt;= 100</li>
+<li>1 &lt;= mat[i][j] &lt;= 100</li>
+</ul>
+</blockquote>
+<h3 id="个人思路-2"><a href="#个人思路-2" class="headerlink" title="个人思路"></a>个人思路</h3><ul>
+<li>从右上角出发，标记两个点A(aR, aC)，B(bR, bC)</li>
+<li>A点的行动轨迹是：向左走，直到A点的列(aC)为零，再向下走，结束位置再左下角</li>
+<li>B点的行东轨迹是：向下走，直到B点的行(bR == 矩阵的行数)，再向左走，结束位置也在左下角</li>
+<li>A，B两点每次走一步</li>
+<li>取出左上方A点到右下方B点这条对角线的所有元素，排序后沿对角线赋值<h4 id="AC代码-2"><a href="#AC代码-2" class="headerlink" title="AC代码"></a>AC代码</h4><div class="hljs"><pre><code class="hljs java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> </span>&#123;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span>[][] diagonalSort(<span class="hljs-keyword">int</span>[][] mat) &#123;
+        <span class="hljs-keyword">int</span> aR = <span class="hljs-number">0</span>, aC = mat[<span class="hljs-number">0</span>].length - <span class="hljs-number">1</span>, bR = <span class="hljs-number">0</span>, bC = mat[<span class="hljs-number">0</span>].length - <span class="hljs-number">1</span>;
+        <span class="hljs-keyword">int</span> endR = mat.length - <span class="hljs-number">1</span>;
+        <span class="hljs-keyword">int</span> endC = mat[<span class="hljs-number">0</span>].length - <span class="hljs-number">1</span>;
+        <span class="hljs-keyword">while</span> (aR != endR + <span class="hljs-number">1</span>) &#123;
+            function(mat, aR, aC, bR, bC);
+            aR = (aC == <span class="hljs-number">0</span>) ? aR + <span class="hljs-number">1</span> : aR;
+            aC = (aC == <span class="hljs-number">0</span>) ? aC : aC - <span class="hljs-number">1</span>;
+            bR = (bR == endR) ? bR : bR + <span class="hljs-number">1</span>;
+            bC = (bR == endR) ? bC - <span class="hljs-number">1</span> : bC;
+        &#125;
+        <span class="hljs-keyword">return</span> mat;
+    &#125;
+    
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">function</span><span class="hljs-params">(<span class="hljs-keyword">int</span> [][]mat, <span class="hljs-keyword">int</span> aR, <span class="hljs-keyword">int</span> aC, <span class="hljs-keyword">int</span> bR, <span class="hljs-keyword">int</span> bC)</span> </span>&#123;
+        List&lt;Integer&gt; list = <span class="hljs-keyword">new</span> ArrayList&lt;Integer&gt;();
+        <span class="hljs-keyword">int</span> a = aR, b = aC, c = bR, d = bC;
+        <span class="hljs-keyword">while</span> (a != c + <span class="hljs-number">1</span>) &#123;
+            list.add(mat[a++][b++]);
+        &#125;
+        Collections.sort(list);
+        <span class="hljs-keyword">int</span> index = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">while</span> (aR != bR + <span class="hljs-number">1</span>) &#123;
+            mat[aR++][aC++] = list.get(index++);
+        &#125;
+    &#125;
+&#125;</code></pre></div>
+
+</li>
+</ul>
+<p>题目链接：<a href="https://leetcode-cn.com/problems/sort-the-matrix-diagonally/" target="_blank" rel="noopener">https://leetcode-cn.com/problems/sort-the-matrix-diagonally/</a></p>
+<hr>
+<h2 id="4-翻转子数组得到最大的数组值"><a href="#4-翻转子数组得到最大的数组值" class="headerlink" title="4.翻转子数组得到最大的数组值"></a>4.翻转子数组得到最大的数组值</h2><h4 id="题目描述-3"><a href="#题目描述-3" class="headerlink" title="题目描述"></a>题目描述</h4><p>给你一个整数数组 <strong>nums</strong> 。「 数组值」定义为所有满足 <strong>0 &lt;= i &lt; nums.length-1</strong> 的 <strong>|nums[i]-nums[i+1]|</strong> 的和。</p>
+<p>你可以选择给定数组的任意子数组，并将该子数组翻转。但你只能执行这个操作 一次 。</p>
+<p>请你找到可行的最大 数组值 。</p>
+<h4 id="示例-1：-1"><a href="#示例-1：-1" class="headerlink" title="示例 1："></a>示例 1：</h4><div class="hljs"><pre><code class="hljs text">输入：nums &#x3D; [2,3,1,5,4]
+输出：10
+解释：通过翻转子数组 [3,1,5] ，数组变成 [2,5,1,3,4] ，数组值为 10 。</code></pre></div>
+
+<p>示例 2：</p>
+<div class="hljs"><pre><code class="hljs text">输入：nums &#x3D; [2,4,9,24,2,1,10]
+输出：68</code></pre></div>
+<h4 id="提示-1"><a href="#提示-1" class="headerlink" title="提示"></a>提示</h4><blockquote>
+<ul>
+<li>1 &lt;= nums.length &lt;= 3*10^4</li>
+<li>-10^5 &lt;= nums[i] &lt;= 10^5</li>
+</ul>
+</blockquote>
+<h3 id="个人思路-3"><a href="#个人思路-3" class="headerlink" title="个人思路"></a>个人思路</h3><p>没有思路，没做出来</p>
+<h4 id="AC代码-3"><a href="#AC代码-3" class="headerlink" title="AC代码"></a>AC代码</h4><div class="hljs"><pre><code class="hljs java">
+</code></pre></div>
+
+<p>题目链接：<a href="https://leetcode-cn.com/problems/reverse-subarray-to-maximize-array-value/" target="_blank" rel="noopener">https://leetcode-cn.com/problems/reverse-subarray-to-maximize-array-value/</a></p>
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E7%AE%97%E6%B3%95/">算法</a>
+                    
+                      <a class="hover-with-bg" href="/tags/LeetCode/">LeetCode</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/01/26/LeetCode-%E7%AC%AC-173-%E5%9C%BA%E5%91%A8%E8%B5%9B/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">LeetCode-第 173 场周赛</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2020/01/21/2019%E4%B8%AA%E4%BA%BA%E6%80%BB%E7%BB%93/">
+                        <span class="hidden-mobile">2019个人总结</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <div class="comments" id="comments">
+                
+                
+  <div id="vcomments"></div>
+  <script type="text/javascript">
+    function loadValine() {
+      addScript('https://cdn.staticfile.org/valine/1.4.14/Valine.min.js', function () {
+        new Valine({
+          el: "#vcomments",
+          app_id: "YewWjRD17w1tEA3i1HFhfPaH-gzGzoHsz",
+          app_key: "bo1KW4tI4AB9hnl9VC1dnFjt",
+          placeholder: "说点什么",
+          path: window.location.pathname,
+          avatar: "retro",
+          meta: ["nick","mail","link"],
+          pageSize: "10",
+          lang: "zh-CN",
+          highlight: true,
+          recordIP: false,
+          serverURLs: "",
+        });
+      });
+    }
+    createObserver(loadValine, 'vcomments');
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://valine.js.org" target="_blank" rel="nofollow noopener noopener">comments
+      powered by Valine.</a></noscript>
+
+
+              </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问数 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总 
+            <span id="busuanzi_value_site_uv"></span>
+             人访问
+          </span>
+      
+    
+  </div>
+
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "LeetCode-第 18 场双周赛&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: true,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.staticfile.org/mathjax/3.0.5/es5/tex-svg.js" ></script>
+
+  
+
+
+
+  
+  
+    <script>
+      !function (e, t, a) {
+        function r() {
+          for (var e = 0; e < s.length; e++) s[e].alpha <= 0 ? (t.body.removeChild(s[e].el), s.splice(e, 1)) : (s[e].y--, s[e].scale += .004, s[e].alpha -= .013, s[e].el.style.cssText = "left:" + s[e].x + "px;top:" + s[e].y + "px;opacity:" + s[e].alpha + ";transform:scale(" + s[e].scale + "," + s[e].scale + ") rotate(45deg);background:" + s[e].color + ";z-index:99999");
+          requestAnimationFrame(r)
+        }
+
+        function n() {
+          var t = "function" == typeof e.onclick && e.onclick;
+          e.onclick = function (e) {
+            t && t(), o(e)
+          }
+        }
+
+        function o(e) {
+          var a = t.createElement("div");
+          a.className = "heart", s.push({
+            el: a,
+            x: e.clientX - 5,
+            y: e.clientY - 5,
+            scale: 1,
+            alpha: 1,
+            color: c()
+          }), t.body.appendChild(a)
+        }
+
+        function i(e) {
+          var a = t.createElement("style");
+          a.type = "text/css";
+          try {
+            a.appendChild(t.createTextNode(e))
+          } catch (t) {
+            a.styleSheet.cssText = e
+          }
+          t.getElementsByTagName("head")[0].appendChild(a)
+        }
+
+        function c() {
+          return "rgb(" + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + ")"
+        }
+
+        var s = [];
+        e.requestAnimationFrame = e.requestAnimationFrame || e.webkitRequestAnimationFrame || e.mozRequestAnimationFrame || e.oRequestAnimationFrame || e.msRequestAnimationFrame || function (e) {
+          setTimeout(e, 1e3 / 60)
+        }, i(".heart{width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: fixed;}.heart:after{top: -5px;}.heart:before{left: -5px;}"), n(), r()
+      }(window, document);
+    </script>
+  
+
+
+
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/mermaid/8.5.0/mermaid.min.js" ></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize({"theme":"default"});
+    }
+  </script>
+
+
+
+
+
+
+
+</body>
+</html>

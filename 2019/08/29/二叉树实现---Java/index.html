@@ -1,0 +1,1255 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="https://cdn.jsdelivr.net/gh/Bursteretion/file-repo/imgs/me.jpg">
+  <link rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/Bursteretion/file-repo/imgs/me.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="知足且坚定，温柔且上进">
+  <meta name="author" content="lwjppz">
+  <meta name="keywords" content="">
+  <title>二叉树实现 - Java - 追尾巴的猫</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/atom-one-dark.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>追尾巴的猫</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('https://gitee.com/lwjppz/PictureBed/raw/master/img/u=895963023,535391369&fm=26&gp=0_1581220141020.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2019-08-29 19:26">
+      2019年8月29日 晚上
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.2k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      40
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <p>写这篇完全就是为了后面的作业用的φ(&gt;ω&lt;*) ,代码都有测试过,虽然目前没有发现什么bug.</p>
+<h3 id="代码"><a href="#代码" class="headerlink" title="代码:"></a>代码:</h3><div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">import</span> java.util.LinkedList;
+<span class="hljs-keyword">import</span> java.util.Queue;
+<span class="hljs-keyword">import</span> java.util.Scanner;
+<span class="hljs-keyword">import</span> java.util.Stack;
+
+<span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * author      : lwj</span>
+<span class="hljs-comment"> * createTime  : 2019/2/15 20:07</span>
+<span class="hljs-comment"> * description : Reprint please indicate the source</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BinaryTree</span>&lt;<span class="hljs-title">T</span>&gt; </span>&#123;
+
+    <span class="hljs-keyword">private</span> Node&lt;T&gt; root;   <span class="hljs-comment">//  根结点</span>
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">BinaryTree</span><span class="hljs-params">()</span> </span>&#123;
+    &#125;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 获取树的根结点</span>
+<span class="hljs-comment">     *</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> Node&lt;T&gt; <span class="hljs-title">getRoot</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> root;
+    &#125;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 判断树是否为空</span>
+<span class="hljs-comment">     *</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">isEmpty</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> root == <span class="hljs-keyword">null</span>;
+    &#125;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 插入结点</span>
+<span class="hljs-comment">     *</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> item</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> parentItem 父结点的值</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> direction  -1表示左,1表示右</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">put</span><span class="hljs-params">(T item, T parentItem, <span class="hljs-keyword">int</span> direction)</span> </span>&#123;
+        Node&lt;T&gt; new_node = <span class="hljs-keyword">new</span> Node&lt;T&gt;(item, <span class="hljs-keyword">null</span>, <span class="hljs-keyword">null</span>, <span class="hljs-keyword">null</span>);
+        <span class="hljs-keyword">if</span> (root == <span class="hljs-keyword">null</span>) &#123;
+            root = new_node;
+        &#125; <span class="hljs-keyword">else</span> &#123;
+            Node&lt;T&gt; parentNode = find(parentItem);
+            <span class="hljs-keyword">if</span> (direction == -<span class="hljs-number">1</span>) &#123;
+                new_node.left = parentNode.left;
+                parentNode.left = new_node;
+                new_node.parent = parentNode;
+            &#125;
+            <span class="hljs-keyword">if</span> (direction == <span class="hljs-number">1</span>) &#123;
+                new_node.right = parentNode.right;
+                parentNode.right = new_node;
+                new_node.parent = parentNode;
+            &#125;
+        &#125;
+    &#125;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 向指定结点插入左孩子</span>
+<span class="hljs-comment">     *</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> parent</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> item</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">insertLeft</span><span class="hljs-params">(T parent, T item)</span> </span>&#123;
+        Node&lt;T&gt; par_node = find(parent);
+        Node&lt;T&gt; left_node = <span class="hljs-keyword">new</span> Node&lt;T&gt;(item, <span class="hljs-keyword">null</span>, <span class="hljs-keyword">null</span>, <span class="hljs-keyword">null</span>);
+        <span class="hljs-keyword">if</span> (par_node.left != <span class="hljs-keyword">null</span>) &#123;
+            left_node.left = par_node.left;
+            par_node.left = left_node;
+            par_node.left.parent = left_node;
+            left_node.parent = par_node;
+        &#125; <span class="hljs-keyword">else</span> &#123;
+            par_node.left = left_node;
+            left_node.parent = par_node;
+        &#125;
+    &#125;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 向指定结点插入右孩子</span>
+<span class="hljs-comment">     *</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> parent</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> item</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">insertRight</span><span class="hljs-params">(T parent, T item)</span> </span>&#123;
+        Node&lt;T&gt; par_node = find(parent);
+        Node&lt;T&gt; right_node = <span class="hljs-keyword">new</span> Node&lt;T&gt;(item, <span class="hljs-keyword">null</span>, <span class="hljs-keyword">null</span>, <span class="hljs-keyword">null</span>);
+        <span class="hljs-keyword">if</span> (par_node.right != <span class="hljs-keyword">null</span>) &#123;
+            right_node.right = par_node.right;
+            par_node.right = right_node;
+            par_node.right.parent = right_node;
+            right_node.parent = par_node;
+        &#125; <span class="hljs-keyword">else</span> &#123;
+            par_node.right = right_node;
+            right_node.parent = par_node;
+        &#125;
+    &#125;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 查找指定结点</span>
+<span class="hljs-comment">     *</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> item</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> Node&lt;T&gt; <span class="hljs-title">find</span><span class="hljs-params">(T item)</span> </span>&#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.find(root, item);
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">private</span> Node&lt;T&gt; <span class="hljs-title">find</span><span class="hljs-params">(Node&lt;T&gt; root, T item)</span> </span>&#123;
+        Queue&lt;Node&lt;T&gt;&gt; queue = <span class="hljs-keyword">new</span> LinkedList&lt;Node&lt;T&gt;&gt;();
+        Node&lt;T&gt; q_node = <span class="hljs-keyword">null</span>;
+        queue.offer(root);
+        <span class="hljs-keyword">while</span> (!queue.isEmpty()) &#123;
+            q_node = queue.poll();
+            <span class="hljs-keyword">if</span> (q_node.item.equals(item)) &#123;
+                <span class="hljs-keyword">return</span> q_node;
+            &#125;
+            <span class="hljs-keyword">if</span> (q_node.left != <span class="hljs-keyword">null</span>) &#123;
+                queue.offer(q_node.left);
+            &#125;
+            <span class="hljs-keyword">if</span> (q_node.right != <span class="hljs-keyword">null</span>) &#123;
+                queue.offer(q_node.right);
+            &#125;
+        &#125;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
+    &#125;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 删除结点</span>
+<span class="hljs-comment">     *</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> item</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">delete</span><span class="hljs-params">(T item)</span> </span>&#123;
+        Node&lt;T&gt; temp_node = find(item);
+        <span class="hljs-keyword">if</span> (temp_node == <span class="hljs-keyword">null</span>) &#123;
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;
+        &#125;
+        Node&lt;T&gt; par = temp_node.parent;
+        <span class="hljs-comment">//如果要删除的是根结点</span>
+        <span class="hljs-keyword">if</span> (temp_node.item == <span class="hljs-keyword">this</span>.root.item) &#123;
+            clear();
+        &#125;
+        <span class="hljs-comment">//左子树</span>
+        <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (par.left.item.equals(temp_node.item)) &#123;
+            par.left = <span class="hljs-keyword">null</span>;
+        &#125;
+        <span class="hljs-comment">//右子树</span>
+        <span class="hljs-keyword">else</span> &#123;
+            par.right = <span class="hljs-keyword">null</span>;
+        &#125;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;
+    &#125;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 清空树</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">clear</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">this</span>.root = <span class="hljs-keyword">null</span>;
+    &#125;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 获得二叉树的高</span>
+<span class="hljs-comment">     *</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">getHeight</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> getHeight(<span class="hljs-keyword">this</span>.root);
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> <span class="hljs-title">getHeight</span><span class="hljs-params">(Node&lt;T&gt; root)</span> </span>&#123;
+        <span class="hljs-keyword">if</span> (root == <span class="hljs-keyword">null</span>) &#123;
+            <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+        &#125; <span class="hljs-keyword">else</span> &#123;
+            <span class="hljs-keyword">int</span> leftH = getHeight(root.left);
+            <span class="hljs-keyword">int</span> rightH = getHeight(root.right);
+            <span class="hljs-keyword">return</span> (leftH &gt; rightH ? leftH : rightH) + <span class="hljs-number">1</span>;
+        &#125;
+    &#125;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 求根结点到指定结点的路径</span>
+<span class="hljs-comment">     *</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> item</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">rootToNode</span><span class="hljs-params">(T item)</span> </span>&#123;
+        Node&lt;T&gt; p_node = find(item);
+        <span class="hljs-keyword">if</span> (p_node != <span class="hljs-keyword">null</span>) &#123;
+            <span class="hljs-keyword">this</span>.rootToNode(p_node);
+        &#125;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">rootToNode</span><span class="hljs-params">(Node&lt;T&gt; x)</span> </span>&#123;
+        <span class="hljs-keyword">if</span> (x.parent != <span class="hljs-keyword">null</span>) &#123;
+            rootToNode(x.parent);
+            System.out.print(<span class="hljs-string">"-&gt;"</span> + x.item);
+        &#125; <span class="hljs-keyword">else</span> &#123;
+            System.out.print(x.item);
+        &#125;
+    &#125;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 获取左子树</span>
+<span class="hljs-comment">     *</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> item</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> Node&lt;T&gt; <span class="hljs-title">getLeft</span><span class="hljs-params">(T item)</span> </span>&#123;
+        Node&lt;T&gt; p_node = find(item);
+        <span class="hljs-keyword">return</span> p_node == <span class="hljs-keyword">null</span> ? <span class="hljs-keyword">null</span> : p_node.left;
+    &#125;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 获取右子树</span>
+<span class="hljs-comment">     *</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> item</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> Node&lt;T&gt; <span class="hljs-title">getRight</span><span class="hljs-params">(T item)</span> </span>&#123;
+        Node&lt;T&gt; p_node = find(item);
+        <span class="hljs-keyword">return</span> p_node == <span class="hljs-keyword">null</span> ? <span class="hljs-keyword">null</span> : p_node.right;
+    &#125;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 统计叶子结点的个数</span>
+<span class="hljs-comment">     *</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">statisticsLeafNodeCount</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.statisticsLeafNodeCount(root);
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> <span class="hljs-title">statisticsLeafNodeCount</span><span class="hljs-params">(Node&lt;T&gt; x)</span> </span>&#123;
+        <span class="hljs-keyword">int</span> count = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">if</span> (x == <span class="hljs-keyword">null</span>) &#123;
+            <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+        &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (x.left == <span class="hljs-keyword">null</span> &amp;&amp; x.right == <span class="hljs-keyword">null</span>) &#123;
+            <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;
+        &#125; <span class="hljs-keyword">else</span> &#123;
+            count = statisticsLeafNodeCount(x.left) + statisticsLeafNodeCount(x.right);
+        &#125;
+        <span class="hljs-keyword">return</span> count;
+    &#125;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 判断是否是叶子结点</span>
+<span class="hljs-comment">     *</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> item</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">isLeafNode</span><span class="hljs-params">(T item)</span> </span>&#123;
+        Node&lt;T&gt; p_node = find(item);
+        <span class="hljs-keyword">if</span> (p_node.left == <span class="hljs-keyword">null</span> &amp;&amp; p_node.right == <span class="hljs-keyword">null</span>) &#123;
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;
+        &#125;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;
+    &#125;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 获取所有结点个数</span>
+<span class="hljs-comment">     *</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">statisticsNodeCount</span><span class="hljs-params">()</span> </span>&#123;
+        Node&lt;T&gt; p_node = root;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.statisticsNodeCount(p_node);
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> <span class="hljs-title">statisticsNodeCount</span><span class="hljs-params">(Node&lt;T&gt; x)</span> </span>&#123;
+        <span class="hljs-keyword">if</span> (x == <span class="hljs-keyword">null</span>) &#123;
+            <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+        &#125; <span class="hljs-keyword">else</span> &#123;
+            <span class="hljs-keyword">return</span> statisticsNodeCount(x.left) + statisticsNodeCount(x.right) + <span class="hljs-number">1</span>;
+        &#125;
+    &#125;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 将广义表转换为二叉树</span>
+<span class="hljs-comment">     *</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> gLists</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">createBinTreeByGLists</span><span class="hljs-params">(String gLists)</span> </span>&#123;
+        <span class="hljs-keyword">this</span>.root = (Node&lt;T&gt;) <span class="hljs-keyword">this</span>.createByGList(gLists);
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">private</span> Node&lt;Character&gt; <span class="hljs-title">createByGList</span><span class="hljs-params">(String gLists)</span> </span>&#123;
+        Node&lt;Character&gt; root_node = <span class="hljs-keyword">null</span>;
+        Node&lt;Character&gt; curr_node = <span class="hljs-keyword">null</span>;
+        Stack&lt;Node&lt;Character&gt;&gt; stack = <span class="hljs-keyword">new</span> Stack&lt;Node&lt;Character&gt;&gt;();
+        <span class="hljs-keyword">int</span> flag = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> left = <span class="hljs-number">1</span>;
+        <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> right = <span class="hljs-number">2</span>;
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; gLists.length(); i++) &#123;
+            <span class="hljs-keyword">char</span> ch = gLists.charAt(i);
+            <span class="hljs-keyword">switch</span> (ch) &#123;
+                <span class="hljs-keyword">case</span> <span class="hljs-string">'('</span>:
+                    flag = left;
+                    stack.push(curr_node);
+                    <span class="hljs-keyword">break</span>;
+                <span class="hljs-keyword">case</span> <span class="hljs-string">','</span>:
+                    flag = right;
+                    <span class="hljs-keyword">break</span>;
+                <span class="hljs-keyword">case</span> <span class="hljs-string">')'</span>:
+                    stack.pop();
+                    <span class="hljs-keyword">break</span>;
+                <span class="hljs-keyword">case</span> <span class="hljs-string">'^'</span>:
+                    <span class="hljs-keyword">break</span>;
+                <span class="hljs-keyword">default</span>:
+                    curr_node = <span class="hljs-keyword">new</span> Node&lt;Character&gt;(ch, <span class="hljs-keyword">null</span>, <span class="hljs-keyword">null</span>, <span class="hljs-keyword">null</span>);
+                    <span class="hljs-keyword">if</span> (root_node == <span class="hljs-keyword">null</span>) &#123;
+                        root_node = curr_node;
+                    &#125; <span class="hljs-keyword">else</span> &#123;
+                        <span class="hljs-keyword">if</span> (flag == <span class="hljs-number">1</span>) &#123;
+                            stack.peek().left = curr_node;
+                        &#125; <span class="hljs-keyword">else</span> &#123;
+                            stack.peek().right = curr_node;
+                        &#125;
+                    &#125;
+            &#125;
+        &#125;
+        <span class="hljs-keyword">return</span> root_node;
+    &#125;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 将二叉树表示为广义表</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">toGeeneralizedList</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">this</span>.toGeeneralizedList(root);
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">toGeeneralizedList</span><span class="hljs-params">(Node&lt;T&gt; root)</span> </span>&#123;
+        System.out.print(root.item);
+        <span class="hljs-keyword">if</span> (root.left != <span class="hljs-keyword">null</span>) &#123;
+            System.out.print(<span class="hljs-string">"("</span>);
+            toGeeneralizedList(root.left);
+            <span class="hljs-keyword">if</span> (root.right == <span class="hljs-keyword">null</span>) &#123;
+                System.out.print(<span class="hljs-string">",^)"</span>);
+            &#125;
+        &#125;
+        <span class="hljs-keyword">if</span> (root.right != <span class="hljs-keyword">null</span>) &#123;
+            <span class="hljs-keyword">if</span> (root.left == <span class="hljs-keyword">null</span>) &#123;
+                System.out.print(<span class="hljs-string">"(^"</span>);
+            &#125;
+            System.out.print(<span class="hljs-string">","</span>);
+            toGeeneralizedList(root.right);
+            System.out.print(<span class="hljs-string">")"</span>);
+        &#125;
+    &#125;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 判断是否为完全二叉树</span>
+<span class="hljs-comment">     *</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">isCompleteTree</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.isCompleteTree(root);
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">isCompleteTree</span><span class="hljs-params">(Node&lt;T&gt; root)</span> </span>&#123;
+        Node&lt;T&gt; p_node = <span class="hljs-keyword">null</span>;
+        Queue&lt;Node&lt;T&gt;&gt; queue = <span class="hljs-keyword">new</span> LinkedList&lt;Node&lt;T&gt;&gt;();
+        queue.offer(root);
+        <span class="hljs-keyword">while</span> ((p_node = queue.poll()) != <span class="hljs-keyword">null</span>) &#123;
+            queue.offer(p_node.left);
+            queue.offer(p_node.right);
+        &#125;
+        <span class="hljs-keyword">while</span> (!queue.isEmpty()) &#123;
+            p_node = queue.poll();
+            <span class="hljs-keyword">if</span> (p_node != <span class="hljs-keyword">null</span>) &#123;
+                <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;
+            &#125;
+        &#125;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;
+    &#125;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 根据后序和中序遍历建立二叉树</span>
+<span class="hljs-comment">     *</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> post 后续遍历集合</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> in   中序遍历集合</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@return</span> 树的根结点</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">private</span> Node&lt;T&gt; <span class="hljs-title">buildTree</span><span class="hljs-params">(T[] post, T[] in)</span> </span>&#123;
+        <span class="hljs-keyword">int</span> len = in.length;
+        <span class="hljs-keyword">return</span> dfs(<span class="hljs-number">0</span>, len - <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, len - <span class="hljs-number">1</span>, post, in);
+    &#125;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 递归构建树</span>
+<span class="hljs-comment">     *</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> inl</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> inr</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> postl</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> postr</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> post</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> in</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">private</span> Node&lt;T&gt; <span class="hljs-title">dfs</span><span class="hljs-params">(<span class="hljs-keyword">int</span> inl, <span class="hljs-keyword">int</span> inr, <span class="hljs-keyword">int</span> postl, <span class="hljs-keyword">int</span> postr, T[] post, T[] in)</span> </span>&#123;
+        <span class="hljs-keyword">if</span> (inl &gt; inr || postl &gt; postr) &#123;
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
+        &#125;
+
+        T val = post[postr];
+        <span class="hljs-keyword">int</span> k = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = inl; i &lt; inr + <span class="hljs-number">1</span>; i++) &#123;
+            <span class="hljs-keyword">if</span> (in[i] == val) &#123;
+                k = i;
+                <span class="hljs-keyword">break</span>;
+            &#125;
+        &#125;
+
+        Node&lt;T&gt; root = <span class="hljs-keyword">new</span> Node&lt;T&gt;(val, <span class="hljs-keyword">null</span>, <span class="hljs-keyword">null</span>, <span class="hljs-keyword">null</span>);
+        <span class="hljs-comment">// 第 4 个参数是计算出来的，依据：两边区间长度相等</span>
+        root.left = dfs(inl, k - <span class="hljs-number">1</span>, postl, k - <span class="hljs-number">1</span> - inl + postl, post, in);
+        <span class="hljs-comment">// 第 3 个参数是计算出来的，依据：两边区间长度相等</span>
+        root.right = dfs(k + <span class="hljs-number">1</span>, inr, postr + k - inr, postr - <span class="hljs-number">1</span>, post, in);
+        <span class="hljs-keyword">return</span> root;
+    &#125;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 前序遍历</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">preOrderTraverse</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">this</span>.preOrderTraverse(root);
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">preOrderTraverse</span><span class="hljs-params">(Node&lt;T&gt; root)</span> </span>&#123;
+        <span class="hljs-keyword">if</span> (root != <span class="hljs-keyword">null</span>) &#123;
+            System.out.print(root.item);
+            preOrderTraverse(root.left);
+            preOrderTraverse(root.right);
+        &#125;
+    &#125;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 前序遍历非递归</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">preOrderByStack</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">this</span>.preOrderByStack(root);
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">preOrderByStack</span><span class="hljs-params">(Node&lt;T&gt; root)</span> </span>&#123;
+        Stack&lt;Node&lt;T&gt;&gt; stack = <span class="hljs-keyword">new</span> Stack&lt;Node&lt;T&gt;&gt;();
+        Node&lt;T&gt; temp = root;
+        <span class="hljs-keyword">while</span>(temp != <span class="hljs-keyword">null</span> || !stack.empty())&#123;
+            <span class="hljs-keyword">if</span>(temp != <span class="hljs-keyword">null</span>)&#123;
+                System.out.print(temp.item);
+                stack.push(temp);
+                temp = temp.left;
+            &#125;<span class="hljs-keyword">else</span> &#123;
+                temp = stack.pop();
+                temp = temp.right;
+            &#125;
+        &#125;
+    &#125;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 中序遍历</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">inOrderTraverse</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">this</span>.inOrderTraverse(root);
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">inOrderTraverse</span><span class="hljs-params">(Node&lt;T&gt; root)</span> </span>&#123;
+        <span class="hljs-keyword">if</span> (root != <span class="hljs-keyword">null</span>) &#123;
+            inOrderTraverse(root.left);
+            System.out.print(root.item);
+            inOrderTraverse(root.right);
+        &#125;
+    &#125;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 中序遍历非递归</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">inOrderByStack</span><span class="hljs-params">()</span></span>&#123;
+        <span class="hljs-keyword">this</span>.inOrderStack(root);
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">inOrderStack</span><span class="hljs-params">(Node&lt;T&gt; root)</span></span>&#123;
+        Stack&lt;Node&lt;T&gt;&gt; stack = <span class="hljs-keyword">new</span> Stack&lt;Node&lt;T&gt;&gt;();
+        Node&lt;T&gt; temp= root;
+        <span class="hljs-keyword">while</span>(temp != <span class="hljs-keyword">null</span> || !stack.empty())&#123;
+            <span class="hljs-keyword">if</span>(temp != <span class="hljs-keyword">null</span>)&#123;
+                stack.push(temp);
+                temp = temp.left;
+            &#125;<span class="hljs-keyword">else</span> &#123;
+                temp = stack.pop();
+                System.out.print(temp.item);
+                temp = temp.right;
+            &#125;
+        &#125;
+    &#125;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 后序遍历</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">postOrderTraverse</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">this</span>.postOrderTraverse(root);
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">postOrderTraverse</span><span class="hljs-params">(Node&lt;T&gt; root)</span> </span>&#123;
+        <span class="hljs-keyword">if</span> (root != <span class="hljs-keyword">null</span>) &#123;
+            postOrderTraverse(root.left);
+            postOrderTraverse(root.right);
+            System.out.print(root.item);
+        &#125;
+    &#125;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 后序遍历非递归</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">postOrderByStack</span><span class="hljs-params">()</span></span>&#123;
+        <span class="hljs-keyword">this</span>.postOrderByStack(root);
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">postOrderByStack</span><span class="hljs-params">(Node&lt;T&gt; root)</span></span>&#123;
+        Stack&lt;Node&lt;T&gt;&gt; stack  = <span class="hljs-keyword">new</span> Stack&lt;Node&lt;T&gt;&gt;();
+        Node&lt;T&gt; temp = root;
+        Node&lt;T&gt; lastNode = root;
+        <span class="hljs-keyword">while</span>(temp != <span class="hljs-keyword">null</span> || !stack.empty())&#123;
+            <span class="hljs-keyword">while</span>(temp != <span class="hljs-keyword">null</span>)&#123;
+                stack.push(temp);
+                temp = temp.left;
+            &#125;
+            temp = stack.peek();
+            <span class="hljs-keyword">if</span>(temp.right == <span class="hljs-keyword">null</span> || temp.right == lastNode)&#123;
+                System.out.print(temp.item);
+                stack.pop();
+                lastNode = temp;
+                temp = <span class="hljs-keyword">null</span>;
+            &#125;<span class="hljs-keyword">else</span> &#123;
+                temp = temp.right;
+            &#125;
+        &#125;
+    &#125;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 层序遍历二叉树</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">levelOrderTraverse</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">this</span>.levelOrderTraverse(root);
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">levelOrderTraverse</span><span class="hljs-params">(Node&lt;T&gt; root)</span> </span>&#123;
+        Node&lt;T&gt; temp = <span class="hljs-keyword">null</span>;
+        Queue&lt;Node&lt;T&gt;&gt; queue = <span class="hljs-keyword">new</span> LinkedList&lt;Node&lt;T&gt;&gt;();
+        queue.offer(root);
+        <span class="hljs-keyword">while</span> (!queue.isEmpty()) &#123;
+            temp = queue.poll();
+            System.out.print(temp.item);
+            <span class="hljs-keyword">if</span> (<span class="hljs-keyword">null</span> != temp.left)
+                queue.offer(temp.left);
+            <span class="hljs-keyword">if</span> (<span class="hljs-keyword">null</span> != temp.right) &#123;
+                queue.offer(temp.right);
+            &#125;
+        &#125;
+        System.out.println();
+    &#125;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 树的结点类</span>
+<span class="hljs-comment">     *</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> &lt;T&gt;</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-keyword">private</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Node</span>&lt;<span class="hljs-title">T</span>&gt; </span>&#123;
+        Node&lt;T&gt; left;
+        Node&lt;T&gt; right;
+        Node&lt;T&gt; parent;
+        T item;
+
+        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Node</span><span class="hljs-params">(T item, Node&lt;T&gt; left, Node&lt;T&gt; right, Node&lt;T&gt; parent)</span> </span>&#123;
+            <span class="hljs-keyword">this</span>.left = left;
+            <span class="hljs-keyword">this</span>.right = right;
+            <span class="hljs-keyword">this</span>.parent = parent;
+            <span class="hljs-keyword">this</span>.item = item;
+        &#125;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+<span class="hljs-comment">//        String str = "ABC.D.E..FG...H";</span>
+<span class="hljs-comment">//        char[] arr = str.toCharArray();</span>
+<span class="hljs-comment">//        BinaryTree&lt;Character&gt; binaryTree = new BinaryTree&lt;Character&gt;();</span>
+<span class="hljs-comment">//        for (int i = 0; i &lt; arr.length; i++) &#123;</span>
+<span class="hljs-comment">//            if (arr[i] != '.') &#123;</span>
+<span class="hljs-comment">//                if (i % 2 == 0) &#123;</span>
+<span class="hljs-comment">//                    binaryTree.put(arr[i], arr[(i - 1) / 2], 1);</span>
+<span class="hljs-comment">//                &#125; else &#123;</span>
+<span class="hljs-comment">//                    binaryTree.put(arr[i], arr[(i - 1) / 2], -1);</span>
+<span class="hljs-comment">//                &#125;</span>
+<span class="hljs-comment">//            &#125;</span>
+<span class="hljs-comment">//        &#125;</span>
+<span class="hljs-comment">//        binaryTree.rootToNode('L');</span>
+<span class="hljs-comment">//        System.out.println(binaryTree.statisticsLeafNodeCount());</span>
+<span class="hljs-comment">//        System.out.println(binaryTree.getHeight());</span>
+<span class="hljs-comment">//        System.out.println(binaryTree.statisticsNodeCount());</span>
+<span class="hljs-comment">//        System.out.println(binaryTree.isCompleteTree());</span>
+<span class="hljs-comment">//        String str = "A(B(D(^,G),^),C(E,F))";</span>
+<span class="hljs-comment">//        BinaryTree&lt;Character&gt; binaryTree = new BinaryTree&lt;Character&gt;();</span>
+<span class="hljs-comment">//        binaryTree.createBinTreeByGLists(str);</span>
+<span class="hljs-comment">//        binaryTree.inOrderTraverse();</span>
+
+<span class="hljs-comment">//        Scanner sc = new Scanner(System.in);</span>
+<span class="hljs-comment">//        int n = sc.nextInt();</span>
+<span class="hljs-comment">//        Character[] post = new Character[n];</span>
+<span class="hljs-comment">//        Character[] in = new Character[n];</span>
+<span class="hljs-comment">//        for (int i = 0; i &lt; n; i++) &#123;</span>
+<span class="hljs-comment">//            post[i] = String.valueOf(sc.nextInt()).charAt(0);</span>
+<span class="hljs-comment">//        &#125;</span>
+<span class="hljs-comment">//        for (int i = 0; i &lt; n; i++) &#123;</span>
+<span class="hljs-comment">//            in[i] = String.valueOf(sc.nextInt()).charAt(0);</span>
+<span class="hljs-comment">//        &#125;</span>
+<span class="hljs-comment">//        System.out.print("Preorder:");</span>
+<span class="hljs-comment">//        BinaryTree&lt;Character&gt; binaryTree = new BinaryTree&lt;&gt;();</span>
+<span class="hljs-comment">//        binaryTree.preOrderTraverse(binaryTree.buildTree(post, in));</span>
+<span class="hljs-comment">//        System.out.println();</span>
+    &#125;
+&#125;</code></pre></div>
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E7%AE%97%E6%B3%95/">算法</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/09/09/%E7%BA%BF%E6%80%A7%E8%A1%A8---Java%E5%AE%9E%E7%8E%B0/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">线性表 - Java实现</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2019/08/27/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E4%BA%8C%E5%8F%89%E6%8E%92%E5%BA%8F%EF%BC%88%E6%90%9C%E7%B4%A2%EF%BC%89%E6%A0%91/">
+                        <span class="hidden-mobile">数据结构-二叉排序（搜索）树</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <div class="comments" id="comments">
+                
+                
+  <div id="vcomments"></div>
+  <script type="text/javascript">
+    function loadValine() {
+      addScript('https://cdn.staticfile.org/valine/1.4.14/Valine.min.js', function () {
+        new Valine({
+          el: "#vcomments",
+          app_id: "YewWjRD17w1tEA3i1HFhfPaH-gzGzoHsz",
+          app_key: "bo1KW4tI4AB9hnl9VC1dnFjt",
+          placeholder: "说点什么",
+          path: window.location.pathname,
+          avatar: "retro",
+          meta: ["nick","mail","link"],
+          pageSize: "10",
+          lang: "zh-CN",
+          highlight: true,
+          recordIP: false,
+          serverURLs: "",
+        });
+      });
+    }
+    createObserver(loadValine, 'vcomments');
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://valine.js.org" target="_blank" rel="nofollow noopener noopener">comments
+      powered by Valine.</a></noscript>
+
+
+              </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问数 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总 
+            <span id="busuanzi_value_site_uv"></span>
+             人访问
+          </span>
+      
+    
+  </div>
+
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "二叉树实现 - Java&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: true,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.staticfile.org/mathjax/3.0.5/es5/tex-svg.js" ></script>
+
+  
+
+
+
+  
+  
+    <script>
+      !function (e, t, a) {
+        function r() {
+          for (var e = 0; e < s.length; e++) s[e].alpha <= 0 ? (t.body.removeChild(s[e].el), s.splice(e, 1)) : (s[e].y--, s[e].scale += .004, s[e].alpha -= .013, s[e].el.style.cssText = "left:" + s[e].x + "px;top:" + s[e].y + "px;opacity:" + s[e].alpha + ";transform:scale(" + s[e].scale + "," + s[e].scale + ") rotate(45deg);background:" + s[e].color + ";z-index:99999");
+          requestAnimationFrame(r)
+        }
+
+        function n() {
+          var t = "function" == typeof e.onclick && e.onclick;
+          e.onclick = function (e) {
+            t && t(), o(e)
+          }
+        }
+
+        function o(e) {
+          var a = t.createElement("div");
+          a.className = "heart", s.push({
+            el: a,
+            x: e.clientX - 5,
+            y: e.clientY - 5,
+            scale: 1,
+            alpha: 1,
+            color: c()
+          }), t.body.appendChild(a)
+        }
+
+        function i(e) {
+          var a = t.createElement("style");
+          a.type = "text/css";
+          try {
+            a.appendChild(t.createTextNode(e))
+          } catch (t) {
+            a.styleSheet.cssText = e
+          }
+          t.getElementsByTagName("head")[0].appendChild(a)
+        }
+
+        function c() {
+          return "rgb(" + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + ")"
+        }
+
+        var s = [];
+        e.requestAnimationFrame = e.requestAnimationFrame || e.webkitRequestAnimationFrame || e.mozRequestAnimationFrame || e.oRequestAnimationFrame || e.msRequestAnimationFrame || function (e) {
+          setTimeout(e, 1e3 / 60)
+        }, i(".heart{width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: fixed;}.heart:after{top: -5px;}.heart:before{left: -5px;}"), n(), r()
+      }(window, document);
+    </script>
+  
+
+
+
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/mermaid/8.5.0/mermaid.min.js" ></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize({"theme":"default"});
+    }
+  </script>
+
+
+
+
+
+
+
+</body>
+</html>

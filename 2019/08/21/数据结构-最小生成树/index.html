@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="https://cdn.jsdelivr.net/gh/Bursteretion/file-repo/imgs/me.jpg">
+  <link rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/Bursteretion/file-repo/imgs/me.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="知足且坚定，温柔且上进">
+  <meta name="author" content="lwjppz">
+  <meta name="keywords" content="">
+  <title>数据结构-最小生成树 - 追尾巴的猫</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/atom-one-dark.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>追尾巴的猫</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('https://gitee.com/lwjppz/PictureBed/raw/master/img/u=793982475,2960645048&fm=15&gp=0.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2019-08-21 13:25">
+      2019年8月21日 下午
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.2k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      33
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <h1 id="什么是最小生成树？"><a href="#什么是最小生成树？" class="headerlink" title="什么是最小生成树？"></a>什么是最小生成树？</h1><p>一个有 n 个结点的连通图的生成树是原图的极小连通子图，且包含原图中的所有 n 个结点，并且有保持图连通的最少的边。最小生成树可以用kruskal（克鲁斯卡尔）算法或prim（普里姆）算法求出。</p>
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>在一给定的无向图G = (V, E) 中，(u, v) 代表连接顶点 u 与顶点 v 的边（即），而 w(u, v) 代表此边的权重，若存在 T 为 E 的子集且为无循环图，使得的 <strong>w(T)</strong> 最小，则此 T 为 G 的<strong>最小生成树</strong>。</p>
+<p>最小生成树其实是<strong>最小权重生成树</strong>的简称</p>
+<h3 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h3><p>例如：要在n个城市之间铺设光缆，主要目标是要使这 n 个城市的任意两个之间都可以通信，但铺设光缆的费用很高，且各个城市之间铺设光缆的费用不同，因此另一个目标是要使铺设光缆的总费用最低。这就需要找到带权的最小生成树。</p>
+<h3 id="关于图的几个概念定义："><a href="#关于图的几个概念定义：" class="headerlink" title="关于图的几个概念定义："></a>关于图的几个概念定义：</h3><ul>
+<li><strong>连通图</strong>：在无向图中，若任意两个顶点vivi与vjvj都有路径相通，则称该无向图为连通图。</li>
+<li><strong>强连通图</strong>：在有向图中，若任意两个顶点vivi与vjvj都有路径相通，则称该有向图为强连通图。</li>
+<li><strong>连通网</strong>：在连通图中，若图的边具有一定的意义，每一条边都对应着一个数，称为权；权代表着连接连个顶点的代价，称这种连通图叫做连通网。</li>
+<li><strong>生成树</strong>：一个连通图的生成树是指一个连通子图，它含有图中全部n个顶点，但只有足以构成一棵树的n-1条边。一颗有n个顶点的生成树有且仅有n-1条边，如果生成树中再添加一条边，则必定成环。</li>
+</ul>
+<p><img src="https://gitee.com/lwjppz/PictureBed/raw/master/img/1-bcc3eada.jpg" srcset="/img/loading.gif" alt=""></p>
+<hr>
+<h3 id="以下代码会用到的数据类型："><a href="#以下代码会用到的数据类型：" class="headerlink" title="以下代码会用到的数据类型："></a>以下代码会用到的数据类型：</h3><div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">/*</span>
+<span class="hljs-comment">* 图中的边</span>
+<span class="hljs-comment">*/</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Edge</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Comparable</span>&lt;<span class="hljs-title">Edge</span>&gt; </span>&#123;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> v;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> w;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> weight;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Edge</span><span class="hljs-params">(<span class="hljs-keyword">int</span> v, <span class="hljs-keyword">int</span> w, <span class="hljs-keyword">int</span> weight)</span> </span>&#123;
+        <span class="hljs-keyword">this</span>.v = v;
+        <span class="hljs-keyword">this</span>.w = w;
+        <span class="hljs-keyword">this</span>.weight = weight;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">either</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> v;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">other</span><span class="hljs-params">(<span class="hljs-keyword">int</span> vertex)</span> </span>&#123;
+        <span class="hljs-keyword">if</span> (vertex == v) &#123;
+            <span class="hljs-keyword">return</span> w;
+        &#125; <span class="hljs-keyword">else</span> &#123;
+            <span class="hljs-keyword">return</span> v;
+        &#125;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">getWeight</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> weight;
+    &#125;
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">compareTo</span><span class="hljs-params">(Edge o)</span> </span>&#123;
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.weight &gt; o.weight) &#123;
+            <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;
+        &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.weight &lt; o.weight) &#123;
+            <span class="hljs-keyword">return</span> -<span class="hljs-number">1</span>;
+        &#125; <span class="hljs-keyword">else</span> &#123;
+            <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;
+        &#125;
+    &#125;
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">toString</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-string">"Edge&#123;"</span> +  <span class="hljs-string">"v="</span> + v +  <span class="hljs-string">", w="</span> + w + <span class="hljs-string">", weight="</span> + weight + <span class="hljs-string">'&#125;'</span>;
+    &#125;
+&#125;</code></pre></div>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">/*</span>
+<span class="hljs-comment">* 无向连通图的数据类型</span>
+<span class="hljs-comment">*/</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">EdgeWeightedGraph</span> </span>&#123;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> V;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> E;
+    <span class="hljs-keyword">private</span> LinkedList&lt;Edge&gt;[] adj;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">EdgeWeightedGraph</span><span class="hljs-params">(<span class="hljs-keyword">int</span> V)</span> </span>&#123;
+        <span class="hljs-keyword">this</span>.V = V;
+        <span class="hljs-keyword">this</span>.E = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">this</span>.adj = (LinkedList&lt;Edge&gt;[]) <span class="hljs-keyword">new</span> LinkedList[V];
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> v = <span class="hljs-number">0</span>; v &lt; V; v++) &#123;
+            adj[v] = <span class="hljs-keyword">new</span> LinkedList&lt;Edge&gt;();
+        &#125;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">V</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> V;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">E</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> E;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">addEdge</span><span class="hljs-params">(Edge e)</span> </span>&#123;
+        <span class="hljs-keyword">int</span> v = e.either();
+        <span class="hljs-keyword">int</span> w = e.other(v);
+        adj[v].add(e);
+        adj[w].add(e);
+        E++;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> LinkedList&lt;Edge&gt; <span class="hljs-title">edges</span><span class="hljs-params">()</span> </span>&#123;
+        LinkedList&lt;Edge&gt; b = <span class="hljs-keyword">new</span> LinkedList&lt;&gt;();
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> v = <span class="hljs-number">0</span>; v &lt; V; v++) &#123;
+            <span class="hljs-keyword">for</span> (Edge e : adj[v]) &#123;
+                <span class="hljs-keyword">if</span> (e.other(v) &gt; v) &#123;
+                    b.add(e);
+                &#125;
+            &#125;
+        &#125;
+        <span class="hljs-keyword">return</span> b;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> Iterable&lt;Edge&gt; <span class="hljs-title">adj</span><span class="hljs-params">(<span class="hljs-keyword">int</span> v)</span> </span>&#123;
+        <span class="hljs-keyword">return</span> adj[v];
+    &#125;
+&#125;</code></pre></div>
+
+<h2 id="下面介绍两种求最小生成树算法"><a href="#下面介绍两种求最小生成树算法" class="headerlink" title="下面介绍两种求最小生成树算法"></a>下面介绍两种求最小生成树算法</h2><h3 id="1-Kruskal算法"><a href="#1-Kruskal算法" class="headerlink" title="1.Kruskal算法"></a><strong>1.Kruskal算法</strong></h3><p>此算法可以称为<strong>加边法</strong>，初始最小生成树边数为0，每迭代一次就选择一条满足条件的最小代价边，加入到最小生成树的边集合里。 </p>
+<ol>
+<li>把图中的所有边按代价从小到大排序； </li>
+<li>把图中的n个顶点看成独立的n棵树组成的森林； </li>
+<li>按权值从小到大选择边，所选的边连接的两个顶点 ui , vi。ui , vi,应属于两颗不同的树，则成为最小生成树的一条边，并将这两颗树合并作为一颗树。  </li>
+<li>重复(3),直到所有顶点都在一颗树内或者有n-1条边为止。</li>
+</ol>
+<p>此算法需要用到 <strong>并查集(Union-Find)</strong> 的知识,不懂得同学请先点击这里<a href="https://www.lwjppz.cn/articles/2019/08/10/1565430386067.html" target="_blank" rel="noopener">Union-Find</a>查看有关知识。</p>
+<p><img src="https://gitee.com/lwjppz/PictureBed/raw/master/img/20160714144315409-ac2c445e.jpg" srcset="/img/loading.gif" alt=""></p>
+<h4 id="代码如下："><a href="#代码如下：" class="headerlink" title="代码如下："></a>代码如下：</h4><h5 id="并查集："><a href="#并查集：" class="headerlink" title="并查集："></a>并查集：</h5><div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UF</span> </span>&#123;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span>[] id;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> count;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">UF</span><span class="hljs-params">(<span class="hljs-keyword">int</span> N)</span> </span>&#123;
+        count = N;
+        id = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[N];
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; N; i++) &#123;
+            id[i] = i;
+        &#125;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">count</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> count;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">connected</span><span class="hljs-params">(<span class="hljs-keyword">int</span> p, <span class="hljs-keyword">int</span> q)</span> </span>&#123;
+        <span class="hljs-keyword">return</span> find(p) == find(q);
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">find</span><span class="hljs-params">(<span class="hljs-keyword">int</span> p)</span> </span>&#123;
+        <span class="hljs-keyword">while</span> (p != id[p]) &#123;
+            p = id[p];
+        &#125;
+        <span class="hljs-keyword">return</span> p;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">union</span><span class="hljs-params">(<span class="hljs-keyword">int</span> p, <span class="hljs-keyword">int</span> q)</span> </span>&#123;
+        <span class="hljs-keyword">int</span> pRoot = find(p);
+        <span class="hljs-keyword">int</span> qRoot = find(q);
+        <span class="hljs-keyword">if</span> (pRoot == qRoot) &#123;
+            <span class="hljs-keyword">return</span>;
+        &#125;
+        id[pRoot] = qRoot;
+        count--;
+    &#125;
+&#125;</code></pre></div>
+
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">KruskalMST</span> </span>&#123;
+    <span class="hljs-keyword">private</span> Queue&lt;Edge&gt; mst;                <span class="hljs-comment">//  存储最小生成树的每条边</span>
+    <span class="hljs-keyword">private</span> Queue&lt;Edge&gt; pq;                 <span class="hljs-comment">//  优先队列，获取权重最小的边</span>
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> weight;                     <span class="hljs-comment">//  权重和</span>
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">KruskalMST</span><span class="hljs-params">()</span> </span>&#123;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">kruskalMST</span><span class="hljs-params">(EdgeWeightedGraph G)</span> </span>&#123;
+        mst = <span class="hljs-keyword">new</span> LinkedList&lt;Edge&gt;();
+        pq = <span class="hljs-keyword">new</span> PriorityQueue&lt;Edge&gt;();
+        <span class="hljs-keyword">for</span> (Edge e : G.edges()) &#123;
+            pq.offer(e);
+        &#125;
+        UF uf = <span class="hljs-keyword">new</span> UF(G.V());
+        <span class="hljs-keyword">while</span> (!pq.isEmpty() &amp;&amp; mst.size() &lt; G.V() - <span class="hljs-number">1</span>) &#123;
+            Edge e = pq.poll();             <span class="hljs-comment">//  从pq中获得权重最小的边和它的顶点</span>
+            <span class="hljs-keyword">int</span> v = e.either();
+            <span class="hljs-keyword">int</span> w = e.other(v);
+            <span class="hljs-keyword">if</span> (!uf.connected(v, w)) &#123;      <span class="hljs-comment">//  如果v和w不构成环</span>
+                uf.union(v, w);             <span class="hljs-comment">//  合并分量</span>
+                mst.offer(e);               <span class="hljs-comment">//  将边添加到最小生成树中</span>
+            &#125;
+        &#125;
+        printKruskalMST();
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">printKruskalMST</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">while</span> (!mst.isEmpty()) &#123;
+            Edge e = mst.poll();
+            weight += e.getWeight();
+            System.out.println(e);
+        &#125;
+        System.out.println(<span class="hljs-string">"总权重为："</span>+weight);
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        Scanner sc = <span class="hljs-keyword">new</span> Scanner(System.in);
+        <span class="hljs-keyword">while</span> (sc.hasNext()) &#123;
+            <span class="hljs-keyword">int</span> V = sc.nextInt();
+            <span class="hljs-keyword">int</span> E = sc.nextInt();
+            EdgeWeightedGraph edgeWeightedGraph = <span class="hljs-keyword">new</span> EdgeWeightedGraph(V);
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; E; i++) &#123;
+                Edge e = <span class="hljs-keyword">new</span> Edge(sc.nextInt() - <span class="hljs-number">1</span>, sc.nextInt() - <span class="hljs-number">1</span>, sc.nextInt());
+                edgeWeightedGraph.addEdge(e);
+            &#125;
+            KruskalMST kruskal = <span class="hljs-keyword">new</span> KruskalMST();
+            kruskal.kruskalMST(edgeWeightedGraph);
+        &#125;
+    &#125;
+&#125;</code></pre></div>
+
+<h4 id="测试如下："><a href="#测试如下：" class="headerlink" title="测试如下："></a>测试如下：</h4><div class="hljs"><pre><code class="hljs java">L:\jdk-<span class="hljs-number">11.0</span><span class="hljs-number">.2</span>\bin\java.exe <span class="hljs-string">"-javaagent:L:\IDEA\IntelliJ IDEA 2018.3.5\lib\idea_rt.jar=60157:L:\IDEA\IntelliJ IDEA 2018.3.5\bin"</span> -Dfile.encoding=UTF-<span class="hljs-number">8</span> -classpath C:\Users\lwj\Desktop\数据结构与算法\out\production\algorithms Main.Tree.KruskalMST
+<span class="hljs-number">6</span> <span class="hljs-number">10</span>
+<span class="hljs-number">1</span> <span class="hljs-number">3</span> <span class="hljs-number">1</span>
+<span class="hljs-number">1</span> <span class="hljs-number">2</span> <span class="hljs-number">6</span>
+<span class="hljs-number">1</span> <span class="hljs-number">4</span> <span class="hljs-number">5</span>
+<span class="hljs-number">2</span> <span class="hljs-number">3</span> <span class="hljs-number">5</span>
+<span class="hljs-number">2</span> <span class="hljs-number">5</span> <span class="hljs-number">3</span>
+<span class="hljs-number">3</span> <span class="hljs-number">5</span> <span class="hljs-number">6</span>
+<span class="hljs-number">3</span> <span class="hljs-number">4</span> <span class="hljs-number">5</span>
+<span class="hljs-number">3</span> <span class="hljs-number">6</span> <span class="hljs-number">4</span>
+<span class="hljs-number">4</span> <span class="hljs-number">6</span> <span class="hljs-number">2</span>
+<span class="hljs-number">6</span> <span class="hljs-number">5</span> <span class="hljs-number">6</span>
+Edge&#123;v=<span class="hljs-number">0</span>, w=<span class="hljs-number">2</span>, weight=<span class="hljs-number">1</span>&#125;
+Edge&#123;v=<span class="hljs-number">3</span>, w=<span class="hljs-number">5</span>, weight=<span class="hljs-number">2</span>&#125;
+Edge&#123;v=<span class="hljs-number">1</span>, w=<span class="hljs-number">4</span>, weight=<span class="hljs-number">3</span>&#125;
+Edge&#123;v=<span class="hljs-number">2</span>, w=<span class="hljs-number">5</span>, weight=<span class="hljs-number">4</span>&#125;
+Edge&#123;v=<span class="hljs-number">1</span>, w=<span class="hljs-number">2</span>, weight=<span class="hljs-number">5</span>&#125;
+总权重为：<span class="hljs-number">15</span></code></pre></div>
+
+
+<h3 id="2-Prim算法"><a href="#2-Prim算法" class="headerlink" title="2.Prim算法"></a><strong>2.Prim算法</strong></h3><p>此算法可以称为“加点法”，每次迭代选择代价最小的边对应的点，加入到最小生成树中。算法从某一个顶点s开始，逐渐长大覆盖整个连通网的所有顶点。</p>
+<ol>
+<li>图的所有顶点集合为VV；初始令集合u={s},v=V−uu={s},v=V−u;</li>
+<li>在两个集合u,vu,v能够组成的边中，选择一条代价最小的边(u0,v0)(u0,v0)，加入到最小生成树中，并把v0v0并入到集合u中。</li>
+<li>重复上述步骤，直到最小生成树有n-1条边或者n个顶点为止。</li>
+</ol>
+<p><img src="https://gitee.com/lwjppz/PictureBed/raw/master/img/20160714161107576-757f8695.jpg" srcset="/img/loading.gif" alt=""></p>
+<h4 id="代码如下：-1"><a href="#代码如下：-1" class="headerlink" title="代码如下："></a>代码如下：</h4><div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">PrimMST</span> </span>&#123;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">boolean</span>[] marked;
+    <span class="hljs-keyword">private</span> Queue&lt;Edge&gt; mst;
+    <span class="hljs-keyword">private</span> Queue&lt;Edge&gt; pq;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">primMST</span><span class="hljs-params">(EdgeWeightedGraph G)</span> </span>&#123;
+        pq = <span class="hljs-keyword">new</span> PriorityQueue&lt;Edge&gt;();
+        marked = <span class="hljs-keyword">new</span> <span class="hljs-keyword">boolean</span>[G.V()];
+        mst = <span class="hljs-keyword">new</span> LinkedList&lt;Edge&gt;();
+        visit(G, <span class="hljs-number">0</span>);
+        <span class="hljs-keyword">while</span> (!pq.isEmpty()) &#123;
+        Edge e = pq.poll();
+        <span class="hljs-keyword">int</span> v = e.either();
+        <span class="hljs-keyword">int</span> w = e.other(v);
+        <span class="hljs-keyword">if</span> (marked[v] &amp;&amp; marked[w]) <span class="hljs-keyword">continue</span>;
+            mst.offer(e);
+            <span class="hljs-keyword">if</span> (!marked[v]) visit(G, v);
+            <span class="hljs-keyword">if</span> (!marked[w]) visit(G, w);
+        &#125;
+        printMST();
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">visit</span><span class="hljs-params">(EdgeWeightedGraph G, <span class="hljs-keyword">int</span> v)</span> </span>&#123;
+        marked[v] = <span class="hljs-keyword">true</span>;
+        <span class="hljs-keyword">for</span> (Edge e : G.adj(v)) &#123;
+            <span class="hljs-keyword">if</span> (!marked[e.other(v)]) &#123;
+                pq.offer(e);
+            &#125;
+        &#125;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">printMST</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">while</span> (!mst.isEmpty()) &#123;
+            Edge e = mst.poll();
+            weight += e.getWeight();
+            System.out.println(e);
+        &#125;
+        System.out.println(<span class="hljs-string">"总权重为："</span>+weight);
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        Scanner sc = <span class="hljs-keyword">new</span> Scanner(System.in);
+        <span class="hljs-keyword">while</span> (sc.hasNext()) &#123;
+            <span class="hljs-keyword">int</span> V = sc.nextInt();
+            <span class="hljs-keyword">int</span> E = sc.nextInt();
+            EdgeWeightedGraph edgeWeightedGraph = <span class="hljs-keyword">new</span> EdgeWeightedGraph(V);
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; E; i++) &#123;
+                Edge e = <span class="hljs-keyword">new</span> Edge(sc.nextInt() - <span class="hljs-number">1</span>, sc.nextInt() - <span class="hljs-number">1</span>, sc.nextInt());
+                edgeWeightedGraph.addEdge(e);
+            &#125;     
+            PrimMST primMST = <span class="hljs-keyword">new</span> PrimMST();
+            primMST.primMST(edgeWeightedGraph);
+        &#125;
+    &#125;
+&#125;</code></pre></div>
+
+<h4 id="测试如下：-1"><a href="#测试如下：-1" class="headerlink" title="测试如下："></a>测试如下：</h4><div class="hljs"><pre><code class="hljs java">L:\jdk-<span class="hljs-number">11.0</span><span class="hljs-number">.2</span>\bin\java.exe <span class="hljs-string">"-javaagent:L:\IDEA\IntelliJ IDEA 2018.3.5\lib\idea_rt.jar=60266:L:\IDEA\IntelliJ IDEA 2018.3.5\bin"</span> -Dfile.encoding=UTF-<span class="hljs-number">8</span> -classpath C:\Users\lwj\Desktop\数据结构与算法\out\production\algorithms Main.Tree.PrimMST
+<span class="hljs-number">6</span> <span class="hljs-number">10</span>
+<span class="hljs-number">1</span> <span class="hljs-number">3</span> <span class="hljs-number">1</span>
+<span class="hljs-number">1</span> <span class="hljs-number">2</span> <span class="hljs-number">6</span>
+<span class="hljs-number">1</span> <span class="hljs-number">4</span> <span class="hljs-number">5</span>
+<span class="hljs-number">2</span> <span class="hljs-number">3</span> <span class="hljs-number">5</span>
+<span class="hljs-number">2</span> <span class="hljs-number">5</span> <span class="hljs-number">3</span>
+<span class="hljs-number">3</span> <span class="hljs-number">5</span> <span class="hljs-number">6</span>
+<span class="hljs-number">3</span> <span class="hljs-number">4</span> <span class="hljs-number">5</span>
+<span class="hljs-number">3</span> <span class="hljs-number">6</span> <span class="hljs-number">4</span>
+<span class="hljs-number">4</span> <span class="hljs-number">6</span> <span class="hljs-number">2</span>
+<span class="hljs-number">6</span> <span class="hljs-number">5</span> <span class="hljs-number">6</span>
+Edge&#123;v=<span class="hljs-number">0</span>, w=<span class="hljs-number">2</span>, weight=<span class="hljs-number">1</span>&#125;
+Edge&#123;v=<span class="hljs-number">2</span>, w=<span class="hljs-number">5</span>, weight=<span class="hljs-number">4</span>&#125;
+Edge&#123;v=<span class="hljs-number">3</span>, w=<span class="hljs-number">5</span>, weight=<span class="hljs-number">2</span>&#125;
+Edge&#123;v=<span class="hljs-number">1</span>, w=<span class="hljs-number">2</span>, weight=<span class="hljs-number">5</span>&#125;
+Edge&#123;v=<span class="hljs-number">1</span>, w=<span class="hljs-number">4</span>, weight=<span class="hljs-number">3</span>&#125;
+总权重为：<span class="hljs-number">15</span></code></pre></div>
+
+<h3 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h3><p><img src="https://gitee.com/lwjppz/PictureBed/raw/master/img/767231c6.PNG" srcset="/img/loading.gif" alt=""></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>克鲁斯卡尔（Kruskal）算法因为只与边相关，则适合求稀疏图的最小生成树。而prime算法因为只与顶点有关，所以适合求稠密图的最小生成树。 无疑，Kruskal算法在效率上要比Prim算法快，因为Kruskal只需要对权重边做一次排序，而Prim算法则需要做多次排序。尽管Prim算法每次做的算法涉及的权重边不一定会涵盖连通图中的所有边，但是随着所使用的排序算法的效率的提高，Kruskal算法和Prim算法之间的差异将会清晰的显性出来。</p>
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E7%AE%97%E6%B3%95/">算法</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/08/22/Dijkstra%E7%AE%97%E6%B3%95/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Dijkstra算法</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2019/08/13/union-find%EF%BC%88%E5%B9%B6%E6%9F%A5%E9%9B%86%EF%BC%89%E7%AE%97%E6%B3%95/">
+                        <span class="hidden-mobile">union-find（并查集）算法</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <div class="comments" id="comments">
+                
+                
+  <div id="vcomments"></div>
+  <script type="text/javascript">
+    function loadValine() {
+      addScript('https://cdn.staticfile.org/valine/1.4.14/Valine.min.js', function () {
+        new Valine({
+          el: "#vcomments",
+          app_id: "YewWjRD17w1tEA3i1HFhfPaH-gzGzoHsz",
+          app_key: "bo1KW4tI4AB9hnl9VC1dnFjt",
+          placeholder: "说点什么",
+          path: window.location.pathname,
+          avatar: "retro",
+          meta: ["nick","mail","link"],
+          pageSize: "10",
+          lang: "zh-CN",
+          highlight: true,
+          recordIP: false,
+          serverURLs: "",
+        });
+      });
+    }
+    createObserver(loadValine, 'vcomments');
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://valine.js.org" target="_blank" rel="nofollow noopener noopener">comments
+      powered by Valine.</a></noscript>
+
+
+              </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问数 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总 
+            <span id="busuanzi_value_site_uv"></span>
+             人访问
+          </span>
+      
+    
+  </div>
+
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "数据结构-最小生成树&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: true,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.staticfile.org/mathjax/3.0.5/es5/tex-svg.js" ></script>
+
+  
+
+
+
+  
+  
+    <script>
+      !function (e, t, a) {
+        function r() {
+          for (var e = 0; e < s.length; e++) s[e].alpha <= 0 ? (t.body.removeChild(s[e].el), s.splice(e, 1)) : (s[e].y--, s[e].scale += .004, s[e].alpha -= .013, s[e].el.style.cssText = "left:" + s[e].x + "px;top:" + s[e].y + "px;opacity:" + s[e].alpha + ";transform:scale(" + s[e].scale + "," + s[e].scale + ") rotate(45deg);background:" + s[e].color + ";z-index:99999");
+          requestAnimationFrame(r)
+        }
+
+        function n() {
+          var t = "function" == typeof e.onclick && e.onclick;
+          e.onclick = function (e) {
+            t && t(), o(e)
+          }
+        }
+
+        function o(e) {
+          var a = t.createElement("div");
+          a.className = "heart", s.push({
+            el: a,
+            x: e.clientX - 5,
+            y: e.clientY - 5,
+            scale: 1,
+            alpha: 1,
+            color: c()
+          }), t.body.appendChild(a)
+        }
+
+        function i(e) {
+          var a = t.createElement("style");
+          a.type = "text/css";
+          try {
+            a.appendChild(t.createTextNode(e))
+          } catch (t) {
+            a.styleSheet.cssText = e
+          }
+          t.getElementsByTagName("head")[0].appendChild(a)
+        }
+
+        function c() {
+          return "rgb(" + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + ")"
+        }
+
+        var s = [];
+        e.requestAnimationFrame = e.requestAnimationFrame || e.webkitRequestAnimationFrame || e.mozRequestAnimationFrame || e.oRequestAnimationFrame || e.msRequestAnimationFrame || function (e) {
+          setTimeout(e, 1e3 / 60)
+        }, i(".heart{width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: fixed;}.heart:after{top: -5px;}.heart:before{left: -5px;}"), n(), r()
+      }(window, document);
+    </script>
+  
+
+
+
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/mermaid/8.5.0/mermaid.min.js" ></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize({"theme":"default"});
+    }
+  </script>
+
+
+
+
+
+
+
+</body>
+</html>

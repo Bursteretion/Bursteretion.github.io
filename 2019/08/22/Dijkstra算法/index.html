@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="https://cdn.jsdelivr.net/gh/Bursteretion/file-repo/imgs/me.jpg">
+  <link rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/Bursteretion/file-repo/imgs/me.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="知足且坚定，温柔且上进">
+  <meta name="author" content="lwjppz">
+  <meta name="keywords" content="">
+  <title>Dijkstra算法 - 追尾巴的猫</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/atom-one-dark.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>追尾巴的猫</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('https://gitee.com/lwjppz/PictureBed/raw/master/img/u=3662824231,1137279658&fm=26&gp=0.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2019-08-22 15:14">
+      2019年8月22日 下午
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.5k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      33
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <h1 id="1、最短路径问题介绍"><a href="#1、最短路径问题介绍" class="headerlink" title="1、最短路径问题介绍"></a><strong>1、最短路径问题介绍</strong></h1><p>问题解释：<br>从图中的某个顶点出发到达另外一个顶点的所经过的边的权重和最小的一条路径，称为最短路径</p>
+<p>解决问题的算法：</p>
+<ul>
+<li>迪杰斯特拉算法（Dijkstra算法）</li>
+<li><a href="http://blog.csdn.net/qq_35644234/article/details/60875818" target="_blank" rel="noopener">弗洛伊德算法（Floyd算法）</a></li>
+<li><a href="http://blog.csdn.net/qq_35644234/article/details/61614581" target="_blank" rel="noopener">SPFA算法</a></li>
+</ul>
+<p>这篇博客，就对Dijkstra算法来做一个详细的整理</p>
+<h3 id="1、什么是Dijkstra算法"><a href="#1、什么是Dijkstra算法" class="headerlink" title="1、什么是Dijkstra算法"></a>1、什么是Dijkstra算法</h3><p>迪杰斯特拉算法(Dijkstra)是由荷兰计算机科学家<a href="https://baike.baidu.com/item/%E7%8B%84%E5%85%8B%E6%96%AF%E7%89%B9%E6%8B%89/2828872" target="_blank" rel="noopener">狄克斯特拉</a>于1959 年提出的，因此又叫<a href="https://baike.baidu.com/item/%E7%8B%84%E5%85%8B%E6%96%AF%E7%89%B9%E6%8B%89%E7%AE%97%E6%B3%95/6764865" target="_blank" rel="noopener">狄克斯特拉算法</a>。是从一个顶点到其余各顶点的<a href="https://baike.baidu.com/item/%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%84" target="_blank" rel="noopener">最短路径</a>算法，解决的是有权图中最短路径问题。迪杰斯特拉算法主要特点是以起始点为中心向外层层扩展，直到扩展到终点为止。</p>
+<h3 id="2、Dijkstra算法介绍"><a href="#2、Dijkstra算法介绍" class="headerlink" title="2、Dijkstra算法介绍"></a>2、Dijkstra算法介绍</h3><ul>
+<li><p><strong>算法特点：</strong><br>迪科斯彻算法使用了广度优先搜索解决赋权有向图或者无向图的单源最短路径问题，算法最终得到一个最短路径树。该算法常用于路由算法或者作为其他图算法的一个子模块。</p>
+</li>
+<li><p><strong>算法的思路</strong><br>Dijkstra算法采用的是一种贪心的策略，声明一个数组dis来保存源点到各个顶点的最短距离和一个保存已经找到了最短路径的顶点的集合：T，初始时，原点 s 的路径权重被赋为 0 （dis[s] = 0）。若对于顶点 s 存在能直接到达的边（s,m），则把dis[m]设为w（s, m）,同时把所有其他（s不能直接到达的）顶点的路径长度设为无穷大。初始时，集合T只有顶点s。<br>然后，从dis数组选择最小值，则该值就是源点s到该值对应的顶点的最短路径，并且把该点加入到T中，OK，此时完成一个顶点，<br>然后，我们需要看看新加入的顶点是否可以到达其他顶点并且看看通过该顶点到达其他点的路径长度是否比源点直接到达短，如果是，那么就替换这些顶点在dis中的值。<br>然后，又从dis中找出最小值，重复上述动作，直到T中包含了图的所有顶点。</p>
+</li>
+</ul>
+<h3 id="3、Dijkstra算法示例演示"><a href="#3、Dijkstra算法示例演示" class="headerlink" title="3、Dijkstra算法示例演示"></a>3、Dijkstra算法示例演示</h3><p>求下图，从顶点v1到其他各个顶点的最短路径</p>
+<p><img src="https://gitee.com/lwjppz/PictureBed/raw/master/img/20170308144724663-460f7033.png" srcset="/img/loading.gif" alt=""></p>
+<p>首先第一步，我们先声明一个dis数组，该数组初始化的值为：</p>
+<p><img src="https://gitee.com/lwjppz/PictureBed/raw/master/img/1-b979b62c.png" srcset="/img/loading.gif" alt=""></p>
+<p>我们的顶点集T的初始化为：T={v1}</p>
+<p>既然是求 v1顶点到其余各个顶点的最短路程，那就先找一个离 1 号顶点最近的顶点。通过数组 dis 可知当前离v1顶点最近是 v3顶点。当选择了 2 号顶点后，dis[2]（下标从0开始）的值就已经从“估计值”变为了“确定值”，即 v1顶点到 v3顶点的最短路程就是当前 dis[2]值。将V3加入到T中。<br>为什么呢？因为目前离 v1顶点最近的是 v3顶点，并且这个图所有的边都是正数，那么肯定不可能通过第三个顶点中转，使得 v1顶点到 v3顶点的路程进一步缩短了。因为 v1顶点到其它顶点的路程肯定没有 v1到 v3顶点短.</p>
+<p>OK，既然确定了一个顶点的最短路径，下面我们就要根据这个新入的顶点V3会有出度，发现以v3 为弧尾的有： &lt; v3,v4 &gt;,那么我们看看路径：v1–v3–v4的长度是否比v1–v4短，其实这个已经是很明显的了，因为dis[3]代表的就是v1–v4的长度为无穷大，而v1–v3–v4的长度为：10+50=60，所以更新dis[3]的值,得到如下结果：</p>
+<p><img src="https://gitee.com/lwjppz/PictureBed/raw/master/img/2-b98a6ef8.png" srcset="/img/loading.gif" alt=""></p>
+<p>因此 dis[3]要更新为 60。这个过程有个专业术语叫做“松弛”。即 v1顶点到 v4顶点的路程即 dis[3]，通过 &lt; v3,v4&gt; 这条边松弛成功。这便是 Dijkstra 算法的主要思想：通过“边”来松弛v1顶点到其余各个顶点的路程。</p>
+<p>然后，我们又从除dis[2]和dis[0]外的其他值中寻找最小值，发现dis[4]的值最小，通过之前是解释的原理，可以知道v1到v5的最短距离就是dis[4]的值，然后，我们把v5加入到集合T中，然后，考虑v5的出度是否会影响我们的数组dis的值，v5有两条出度：&lt; v5,v4&gt;和 &lt; v5,v6&gt;,然后我们发现：v1–v5–v4的长度为：50，而dis[3]的值为60，所以我们要更新dis[3]的值.另外，v1-v5-v6的长度为：90，而dis[5]为100，所以我们需要更新dis[5]的值。更新后的dis数组如下图：</p>
+<p><img src="https://gitee.com/lwjppz/PictureBed/raw/master/img/3-64056ef9.png" srcset="/img/loading.gif" alt=""></p>
+<p>然后，继续从dis中选择未确定的顶点的值中选择一个最小的值，发现dis[3]的值是最小的，所以把v4加入到集合T中，此时集合T={v1,v3,v5,v4},然后，考虑v4的出度是否会影响我们的数组dis的值，v4有一条出度：&lt; v4,v6&gt;,然后我们发现：v1–v5–v4–v6的长度为：60，而dis[5]的值为90，所以我们要更新dis[5]的值，更新后的dis数组如下图：</p>
+<p><img src="https://gitee.com/lwjppz/PictureBed/raw/master/img/4-2c337b99.png" srcset="/img/loading.gif" alt=""></p>
+<p>然后，我们使用同样原理，分别确定了v6和v2的最短路径，最后dis的数组的值如下：</p>
+<p><img src="https://gitee.com/lwjppz/PictureBed/raw/master/img/5-6e821cd5.png" srcset="/img/loading.gif" alt=""></p>
+<p>因此，从图中，我们可以发现v1-v2的值为：∞，代表没有路径从v1到达v2。所以我们得到的最后的结果为：</p>
+<div class="hljs"><pre><code class="hljs smali">起点  终点    最短路径    长度
+v1    v2     无          ∞    
+      v3     &#123;v1,v3&#125;    10
+      v4     &#123;v1,v5,v4&#125;  50
+      v5     &#123;v1,v5&#125;    30
+      v6     &#123;v1，v5,v4,v6&#125; 60</code></pre></div>
+
+<h2 id="Dijkstra算法的代码实现（Java）"><a href="#Dijkstra算法的代码实现（Java）" class="headerlink" title="Dijkstra算法的代码实现（Java）"></a>Dijkstra算法的代码实现（Java）</h2><h4 id="Dis类"><a href="#Dis类" class="headerlink" title="Dis类"></a><strong>Dis类</strong></h4><div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * 记录起点到每个顶点的最短路径的信息</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Dis</span> </span>&#123;
+    <span class="hljs-keyword">private</span> String path;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">boolean</span> visit;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> value;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Dis</span><span class="hljs-params">()</span> </span>&#123;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Dis</span><span class="hljs-params">(String path, <span class="hljs-keyword">boolean</span> visit, <span class="hljs-keyword">int</span> value)</span> </span>&#123;
+        <span class="hljs-keyword">this</span>.path = path;
+        <span class="hljs-keyword">this</span>.visit = visit;
+        <span class="hljs-keyword">this</span>.value = value;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getPath</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> path;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setPath</span><span class="hljs-params">(String path)</span> </span>&#123;
+        <span class="hljs-keyword">this</span>.path = path;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">isVisit</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> visit;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setVisit</span><span class="hljs-params">(<span class="hljs-keyword">boolean</span> visit)</span> </span>&#123;
+        <span class="hljs-keyword">this</span>.visit = visit;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">getValue</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> value;
+    &#125;
+    
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setValue</span><span class="hljs-params">(<span class="hljs-keyword">int</span> value)</span> </span>&#123;
+        <span class="hljs-keyword">this</span>.value = value;
+    &#125;
+&#125;</code></pre></div>
+<h4 id="实现类"><a href="#实现类" class="headerlink" title="实现类"></a><strong>实现类</strong></h4><div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * 实现类</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Dijkstra</span> </span>&#123;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> V;                  <span class="hljs-comment">//  图的顶点个数</span>
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> E;                  <span class="hljs-comment">//  图的边数</span>
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span>[][] graph;          <span class="hljs-comment">//  图的邻接矩阵</span>
+    <span class="hljs-keyword">private</span> Dis[] dis;              <span class="hljs-comment">//  记录各个顶点最短路径的信息</span>
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 构造函数</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> V</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> E</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Dijkstra</span><span class="hljs-params">(<span class="hljs-keyword">int</span> V, <span class="hljs-keyword">int</span> E)</span> </span>&#123;
+        <span class="hljs-comment">//初始化顶点数和边数</span>
+        <span class="hljs-keyword">this</span>.V = V;
+        <span class="hljs-keyword">this</span>.E = E;
+        <span class="hljs-comment">//为邻接矩阵和Dis数组开辟空间及赋初值</span>
+        <span class="hljs-keyword">this</span>.graph = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[V][V];
+        <span class="hljs-keyword">this</span>.dis = <span class="hljs-keyword">new</span> Dis[V];
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> v = <span class="hljs-number">0</span>; v &lt; V; v++) &#123;
+            dis[v] = <span class="hljs-keyword">new</span> Dis();
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; V; i++) &#123;
+                graph[v][i] = Integer.MAX_VALUE;
+            &#125;
+        &#125;
+    &#125;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 为邻接矩阵对应点赋值</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> from</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> to</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> weight</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">addEdge</span><span class="hljs-params">(<span class="hljs-keyword">int</span> from, <span class="hljs-keyword">int</span> to, <span class="hljs-keyword">int</span> weight)</span> </span>&#123;
+        graph[from][to] = weight;
+        <span class="hljs-comment">//加上这句就是无向图</span>
+        <span class="hljs-comment">//graph[to][from] = weight;</span>
+    &#125;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * Dijkstra算法实现</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> start</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">dijkstra</span><span class="hljs-params">(<span class="hljs-keyword">int</span> start)</span> </span>&#123;
+        <span class="hljs-comment">//初始化Dis数组</span>
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; V; i++) &#123;
+            <span class="hljs-comment">//设置当前的路径</span>
+            dis[i].setPath(<span class="hljs-string">"V"</span> + String.valueOf(start) + <span class="hljs-string">"-&gt;V"</span> + String.valueOf(i));
+            dis[i].setValue(graph[start][i]);
+        &#125;
+        <span class="hljs-comment">//设置起点到起点的路径为0</span>
+        dis[start].setValue(<span class="hljs-number">0</span>);
+        dis[start].setVisit(<span class="hljs-keyword">true</span>);
+
+        <span class="hljs-comment">//计算剩余的顶点的最短路径（剩余 V - 1 个顶点）</span>
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> v = <span class="hljs-number">1</span>; v &lt; V; v++) &#123;
+            <span class="hljs-comment">//min记录的当前的最小值</span>
+            <span class="hljs-comment">//index用于保存当前dis数组中最小的那个下标</span>
+            <span class="hljs-keyword">int</span> min = Integer.MAX_VALUE;
+            <span class="hljs-keyword">int</span> index = <span class="hljs-number">0</span>;
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; V; i++) &#123;
+                <span class="hljs-keyword">if</span> (!dis[i].isVisit() &amp;&amp; dis[i].getValue() &lt; min) &#123;
+                    min = dis[i].getValue();
+                    index = i;
+                &#125;
+            &#125;
+            <span class="hljs-comment">//把index对应的顶点标记为已访问过</span>
+            dis[index].setVisit(<span class="hljs-keyword">true</span>);
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> j = <span class="hljs-number">0</span>; j &lt; V; j++) &#123;
+                <span class="hljs-comment">//如果新得到的边可以影响其他为访问的顶点，那就就更新它的最短路径和长度</span>
+                <span class="hljs-keyword">if</span> (!dis[j].isVisit() &amp;&amp; graph[index][j] != Integer.MAX_VALUE &amp;&amp; (dis[index].getValue() + graph[index][j] &lt; dis[j].getValue())) &#123;
+                    dis[j].setPath(dis[index].getPath() + <span class="hljs-string">"-&gt;V"</span> + String.valueOf(j));
+                    dis[j].setValue(graph[index][j] + dis[index].getValue());
+                &#125;
+            &#125;
+        &#125;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">printPath</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt; <span class="hljs-keyword">this</span>.V; i++) &#123;
+            <span class="hljs-keyword">if</span> (dis[i].getValue() != Integer.MAX_VALUE) &#123;
+                System.out.println(dis[i].getPath() + <span class="hljs-string">"\t\t最短路径长度为"</span> + dis[i].getValue());
+            &#125; <span class="hljs-keyword">else</span> &#123;
+                System.out.println(dis[i].getPath() + <span class="hljs-string">"\t\t无最短路径"</span>);
+            &#125;
+        &#125;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">printGraph</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span>[] a : graph) &#123;
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; a.length; i++) &#123;
+                <span class="hljs-keyword">if</span> (a[i] == Integer.MAX_VALUE) &#123;
+                    System.out.print(<span class="hljs-string">"\tMAX\t"</span>);
+                &#125; <span class="hljs-keyword">else</span> &#123;
+                    System.out.print(<span class="hljs-string">"\t"</span> + a[i] + <span class="hljs-string">"\t"</span>);
+                &#125;
+            &#125;
+            System.out.println();
+        &#125;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        Scanner sc = <span class="hljs-keyword">new</span> Scanner(System.in);
+        <span class="hljs-keyword">int</span> V = sc.nextInt();
+        <span class="hljs-keyword">int</span> E = sc.nextInt();
+        Dijkstra dijkstra = <span class="hljs-keyword">new</span> Dijkstra(V, E);
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; E; i++) &#123;
+             dijkstra.addEdge(sc.nextInt(), sc.nextInt(), sc.nextInt());
+        &#125;
+        dijkstra.dijkstra(<span class="hljs-number">0</span>);
+        dijkstra.printPath();
+    &#125;
+&#125;</code></pre></div>
+
+<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><div class="hljs"><pre><code class="hljs yaml"><span class="hljs-string">/**</span>
+ <span class="hljs-string">*</span> <span class="hljs-string">测试数据</span>
+ <span class="hljs-string">*</span> <span class="hljs-number">6</span> <span class="hljs-number">11</span>
+ <span class="hljs-string">*</span> <span class="hljs-number">0</span> <span class="hljs-number">1</span> <span class="hljs-number">50</span>
+ <span class="hljs-string">*</span> <span class="hljs-number">0</span> <span class="hljs-number">2</span> <span class="hljs-number">10</span>
+ <span class="hljs-string">*</span> <span class="hljs-number">0</span> <span class="hljs-number">4</span> <span class="hljs-number">45</span>
+ <span class="hljs-string">*</span> <span class="hljs-number">1</span> <span class="hljs-number">4</span> <span class="hljs-number">10</span>
+ <span class="hljs-string">*</span> <span class="hljs-number">1</span> <span class="hljs-number">2</span> <span class="hljs-number">15</span>
+ <span class="hljs-string">*</span> <span class="hljs-number">2</span> <span class="hljs-number">0</span> <span class="hljs-number">20</span>
+ <span class="hljs-string">*</span> <span class="hljs-number">2</span> <span class="hljs-number">3</span> <span class="hljs-number">15</span>
+ <span class="hljs-string">*</span> <span class="hljs-number">3</span> <span class="hljs-number">1</span> <span class="hljs-number">20</span>
+ <span class="hljs-string">*</span> <span class="hljs-number">3</span> <span class="hljs-number">4</span> <span class="hljs-number">35</span>
+ <span class="hljs-string">*</span> <span class="hljs-number">4</span> <span class="hljs-number">3</span> <span class="hljs-number">30</span>
+ <span class="hljs-string">*</span> <span class="hljs-number">5</span> <span class="hljs-number">3</span> <span class="hljs-number">3</span>
+ <span class="hljs-string">*</span> <span class="hljs-string">有向图的邻接矩阵如下：</span>
+ <span class="hljs-string">*</span>      <span class="hljs-number">0</span>       <span class="hljs-number">1</span>       <span class="hljs-number">2</span>       <span class="hljs-number">3</span>       <span class="hljs-number">4</span>       <span class="hljs-number">5</span>
+ <span class="hljs-string">*</span> <span class="hljs-number">0</span>    <span class="hljs-string">MAX</span>     <span class="hljs-number">50</span>      <span class="hljs-number">10</span>      <span class="hljs-string">MAX</span>     <span class="hljs-number">45</span>      <span class="hljs-string">MAX</span>
+ <span class="hljs-string">*</span> <span class="hljs-number">1</span>    <span class="hljs-string">MAX</span>     <span class="hljs-string">MAX</span>     <span class="hljs-number">15</span>      <span class="hljs-string">MAX</span>     <span class="hljs-number">10</span>      <span class="hljs-string">MAX</span>
+ <span class="hljs-string">*</span> <span class="hljs-number">2</span>    <span class="hljs-number">20</span>      <span class="hljs-string">MAX</span>     <span class="hljs-string">MAX</span>     <span class="hljs-number">15</span>      <span class="hljs-string">MAX</span>     <span class="hljs-string">MAX</span>
+ <span class="hljs-string">*</span> <span class="hljs-number">3</span>    <span class="hljs-string">MAX</span>     <span class="hljs-number">20</span>      <span class="hljs-string">MAX</span>     <span class="hljs-string">MAX</span>     <span class="hljs-number">35</span>      <span class="hljs-string">MAX</span>
+ <span class="hljs-string">*</span> <span class="hljs-number">4</span>    <span class="hljs-string">MAX</span>     <span class="hljs-string">MAX</span>     <span class="hljs-string">MAX</span>     <span class="hljs-number">30</span>      <span class="hljs-string">MAX</span>     <span class="hljs-string">MAX</span>
+ <span class="hljs-string">*</span> <span class="hljs-number">5</span>    <span class="hljs-string">MAX</span>     <span class="hljs-string">MAX</span>     <span class="hljs-string">MAX</span>     <span class="hljs-number">3</span>       <span class="hljs-string">MAX</span>     <span class="hljs-string">MAX</span>
+ <span class="hljs-string">*/</span></code></pre></div>
+
+<h3 id="输出"><a href="#输出" class="headerlink" title="输出"></a>输出</h3><div class="hljs"><pre><code class="hljs angelscript">L:\jdk<span class="hljs-number">-11.0</span><span class="hljs-number">.2</span>\bin\java.exe <span class="hljs-string">"-javaagent:L:\IDEA\IntelliJ IDEA 2018.3.5\lib\idea_rt.jar=54359:L:\IDEA\IntelliJ IDEA 2018.3.5\bin"</span> -Dfile.encoding=UTF<span class="hljs-number">-8</span> -classpath C:\Users\lwj\Desktop\数据结构与算法\<span class="hljs-keyword">out</span>\production\algorithms Main.Graph.Dijkstra
+<span class="hljs-number">6</span> <span class="hljs-number">11</span>
+<span class="hljs-number">0</span> <span class="hljs-number">1</span> <span class="hljs-number">50</span>
+<span class="hljs-number">0</span> <span class="hljs-number">2</span> <span class="hljs-number">10</span>
+<span class="hljs-number">0</span> <span class="hljs-number">4</span> <span class="hljs-number">45</span>
+<span class="hljs-number">1</span> <span class="hljs-number">4</span> <span class="hljs-number">10</span>
+<span class="hljs-number">1</span> <span class="hljs-number">2</span> <span class="hljs-number">15</span>
+<span class="hljs-number">2</span> <span class="hljs-number">0</span> <span class="hljs-number">20</span>
+<span class="hljs-number">2</span> <span class="hljs-number">3</span> <span class="hljs-number">15</span>
+<span class="hljs-number">3</span> <span class="hljs-number">1</span> <span class="hljs-number">20</span>
+<span class="hljs-number">3</span> <span class="hljs-number">4</span> <span class="hljs-number">35</span>
+<span class="hljs-number">4</span> <span class="hljs-number">3</span> <span class="hljs-number">30</span>
+<span class="hljs-number">5</span> <span class="hljs-number">3</span> <span class="hljs-number">3</span>
+V0-&gt;V2-&gt;V3-&gt;V1 最短路径长度为<span class="hljs-number">45</span>
+V0-&gt;V2 最短路径长度为<span class="hljs-number">10</span>
+V0-&gt;V2-&gt;V3 最短路径长度为<span class="hljs-number">25</span>
+V0-&gt;V4 最短路径长度为<span class="hljs-number">45</span>
+V0-&gt;V5 无最短路径</code></pre></div>
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>Dijkstra算法适用于权值为非负的图的单源最短路径，算法时间复杂度为<strong>O(n^2)</strong>。</p>
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E7%AE%97%E6%B3%95/">算法</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                      <a href="/2019/08/24/%E9%93%BE%E8%A1%A8%EF%BC%88Java%EF%BC%89%E5%AE%9E%E7%8E%B0/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">链表（Java）实现</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2019/08/21/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E6%9C%80%E5%B0%8F%E7%94%9F%E6%88%90%E6%A0%91/">
+                        <span class="hidden-mobile">数据结构-最小生成树</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <div class="comments" id="comments">
+                
+                
+  <div id="vcomments"></div>
+  <script type="text/javascript">
+    function loadValine() {
+      addScript('https://cdn.staticfile.org/valine/1.4.14/Valine.min.js', function () {
+        new Valine({
+          el: "#vcomments",
+          app_id: "YewWjRD17w1tEA3i1HFhfPaH-gzGzoHsz",
+          app_key: "bo1KW4tI4AB9hnl9VC1dnFjt",
+          placeholder: "说点什么",
+          path: window.location.pathname,
+          avatar: "retro",
+          meta: ["nick","mail","link"],
+          pageSize: "10",
+          lang: "zh-CN",
+          highlight: true,
+          recordIP: false,
+          serverURLs: "",
+        });
+      });
+    }
+    createObserver(loadValine, 'vcomments');
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://valine.js.org" target="_blank" rel="nofollow noopener noopener">comments
+      powered by Valine.</a></noscript>
+
+
+              </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问数 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总 
+            <span id="busuanzi_value_site_uv"></span>
+             人访问
+          </span>
+      
+    
+  </div>
+
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "Dijkstra算法&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: true,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.staticfile.org/mathjax/3.0.5/es5/tex-svg.js" ></script>
+
+  
+
+
+
+  
+  
+    <script>
+      !function (e, t, a) {
+        function r() {
+          for (var e = 0; e < s.length; e++) s[e].alpha <= 0 ? (t.body.removeChild(s[e].el), s.splice(e, 1)) : (s[e].y--, s[e].scale += .004, s[e].alpha -= .013, s[e].el.style.cssText = "left:" + s[e].x + "px;top:" + s[e].y + "px;opacity:" + s[e].alpha + ";transform:scale(" + s[e].scale + "," + s[e].scale + ") rotate(45deg);background:" + s[e].color + ";z-index:99999");
+          requestAnimationFrame(r)
+        }
+
+        function n() {
+          var t = "function" == typeof e.onclick && e.onclick;
+          e.onclick = function (e) {
+            t && t(), o(e)
+          }
+        }
+
+        function o(e) {
+          var a = t.createElement("div");
+          a.className = "heart", s.push({
+            el: a,
+            x: e.clientX - 5,
+            y: e.clientY - 5,
+            scale: 1,
+            alpha: 1,
+            color: c()
+          }), t.body.appendChild(a)
+        }
+
+        function i(e) {
+          var a = t.createElement("style");
+          a.type = "text/css";
+          try {
+            a.appendChild(t.createTextNode(e))
+          } catch (t) {
+            a.styleSheet.cssText = e
+          }
+          t.getElementsByTagName("head")[0].appendChild(a)
+        }
+
+        function c() {
+          return "rgb(" + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + ")"
+        }
+
+        var s = [];
+        e.requestAnimationFrame = e.requestAnimationFrame || e.webkitRequestAnimationFrame || e.mozRequestAnimationFrame || e.oRequestAnimationFrame || e.msRequestAnimationFrame || function (e) {
+          setTimeout(e, 1e3 / 60)
+        }, i(".heart{width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: fixed;}.heart:after{top: -5px;}.heart:before{left: -5px;}"), n(), r()
+      }(window, document);
+    </script>
+  
+
+
+
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/mermaid/8.5.0/mermaid.min.js" ></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize({"theme":"default"});
+    }
+  </script>
+
+
+
+
+
+
+
+</body>
+</html>
