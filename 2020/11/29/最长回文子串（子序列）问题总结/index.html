@@ -17,7 +17,7 @@
   <meta name="description" content="知足且坚定，温柔且上进">
   <meta name="author" content="lwjppz">
   <meta name="keywords" content="">
-  <title>八皇后问题 - 追尾巴的猫</title>
+  <title>最长回文子串（子序列）问题总结 - 追尾巴的猫</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 
@@ -151,7 +151,7 @@
 </nav>
 
     <div class="view intro-2" id="background" parallax=true
-         style="background: url('/img/default.png') no-repeat center center;
+         style="background: url('https://s3.ax1x.com/2020/11/29/DcMl0e.png') no-repeat center center;
            background-size: cover;">
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
@@ -164,8 +164,8 @@
               
   <div class="mt-3 post-meta">
     <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-    <time datetime="2020-08-09 17:32">
-      2020年8月9日 下午
+    <time datetime="2020-11-29 11:50">
+      2020年11月29日 中午
     </time>
   </div>
 
@@ -175,7 +175,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      247 字
+      1.9k 字
     </span>
   
 
@@ -185,7 +185,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      3
+      22
        分钟
     </span>
   
@@ -216,31 +216,145 @@
           <div class="post-content mx-auto" id="post">
             
             <article class="markdown-body">
-              <div class="hljs"><pre><code class="hljs perl"><span class="hljs-comment">## Hello Halo</span>
-如果你看到了这一篇文章，那么证明你已经安装成功了，感谢使用 [Halo](https:<span class="hljs-regexp">//halo</span>.run) 进行创作，希望能够使用愉快。
-<span class="hljs-comment">## 相关链接</span>
-  - 官网：[https:<span class="hljs-regexp">//halo</span>.run](https:<span class="hljs-regexp">//halo</span>.run)\n<span class="hljs-string">" +</span>
-<span class="hljs-string">        "</span>- 社区：[https:<span class="hljs-regexp">//bbs</span>.halo.run](https:<span class="hljs-regexp">//bbs</span>.halo.run)\n<span class="hljs-string">" +</span>
-<span class="hljs-string">        "</span>- 主题仓库：[https:<span class="hljs-regexp">//halo</span>.run/<span class="hljs-regexp">s/themes](https://halo</span>.run/<span class="hljs-keyword">s</span>/themes)\n<span class="hljs-string">" +</span>
-<span class="hljs-string">        "</span>- 开源地址：[https:<span class="hljs-regexp">//github</span>.com/halo-dev/halo](https:<span class="hljs-regexp">//github</span>.com/halo-dev/halo)\n<span class="hljs-string">" +</span>
-<span class="hljs-string">        "</span>\n<span class="hljs-string">" +</span>
-<span class="hljs-string">        "</span>在使用过程中，有任何问题都可以通过以上链接找寻答案，或者联系我们。\n<span class="hljs-string">" +</span>
-<span class="hljs-string">        "</span>\n<span class="hljs-string">" +</span>
-<span class="hljs-string">        "</span>&gt; 这是一篇自动生成的文章，请删除这篇文章之后开始你的创作吧！\n<span class="hljs-string">" +</span>
-<span class="hljs-string">        "</span>\n</code></pre></div>
-
-
-
-<h2 id="关于页面"><a href="#关于页面" class="headerlink" title="关于页面"></a>关于页面</h2><p>这是一个自定义页面，你可以在后台的 <code>页面</code> -&gt; <code>所有页面</code> -&gt; <code>自定义页面</code> 找到它，你可以用于新建关于页面、留言板页面等等。发挥你自己的想象力！</p>
-<blockquote>
-<p>这是一篇自动生成的页面，你可以在后台删除它。</p>
+              <blockquote>
+<p>最近在学习动态规划中遇到了这一类型的题目，这里将这一类型的所有题目总结了一下</p>
 </blockquote>
+<h2 id="1、-最长回文子串"><a href="#1、-最长回文子串" class="headerlink" title="1、 最长回文子串"></a>1、 最长回文子串</h2><h3 id="1-1、题目"><a href="#1-1、题目" class="headerlink" title="1.1、题目"></a>1.1、题目</h3><p>给定一个字符串 <code>s</code>，找到 <code>s</code> 中最长的回文子串。你可以假设 <code>s</code> 的最大长度为 1000。</p>
+<p><strong>示例 1：</strong></p>
+<div class="hljs"><pre><code class="hljs c++">输入: <span class="hljs-string">"babad"</span>
+输出: <span class="hljs-string">"bab"</span>
+注意: <span class="hljs-string">"aba"</span> 也是一个有效答案。</code></pre></div>
 
+<p><strong>示例 2：</strong></p>
+<div class="hljs"><pre><code class="hljs c++">输入: <span class="hljs-string">"cbbd"</span>
+输出: <span class="hljs-string">"bb"</span></code></pre></div>
+
+<h3 id="1-2、题解"><a href="#1-2、题解" class="headerlink" title="1.2、题解"></a>1.2、题解</h3><h4 id="问题分析"><a href="#问题分析" class="headerlink" title="问题分析"></a>问题分析</h4><p>这个问题是此类问题的基础形式，首先这道题比较麻烦的就是判断一个子串是否是回文子串，因此需要一种能够快速判断原字符串中所有子串是否是回文子串的方法。所以想到了<strong>动态规划</strong>。</p>
+<p><strong>动态规划</strong>的最主要的步骤就是要知道<strong>状态如何转移</strong>。暂且回到这个问题来看，回文（ 其实是具有天然转移特性的，为什么这么说呢？这当然不是空穴来风了。</p>
+<ul>
+<li>一个回文去掉头和尾之后，剩下的部分依然是一个回文（暂时不考虑边界情况）</li>
+</ul>
+<p>大家仔细想想这句话，回文是不是一定满足这个性质O(∩_∩)O。</p>
+<p>让我们从回文串的定义开始展开讨论：</p>
+<ul>
+<li>如果一个字符串的头尾字符不相等，那么这个字符串一定不是一个回文串。</li>
+<li>如果一个字符串的头尾字符相等，那么我们的问题将会变成考虑==“这个字符串去掉头尾之后，剩余的部分是不是回文”==此时会有两种情况出现：<ul>
+<li>如果剩余部分是回文串的话，那这个字符串是回文串。</li>
+<li>如果剩余部分不是回文串的话，那这个字符串一定不是回文串。</li>
+</ul>
+</li>
+</ul>
+<p>根据上述讨论可得到：==在头尾字符相等的情况下，里面子串的回文性质规定了整个子串的回文性质==。所以这就是<strong>状态转移</strong>，因此可以把<strong>状态</strong>定义为：==原字符串的一个子串是否是回文子串==。</p>
+<h4 id="第一步：定义状态"><a href="#第一步：定义状态" class="headerlink" title="第一步：定义状态"></a>第一步：定义状态</h4><p>设定 <code>dp[i][j]</code> 表示子串<code>s[i..j]</code>是否是回文子串，这里的<code>s[i..j]</code>是一个闭区间，可以取到<code>s[i] 和 s[j]</code>。</p>
+<h4 id="第二步：考虑状态转移方程"><a href="#第二步：考虑状态转移方程" class="headerlink" title="第二步：考虑状态转移方程"></a>第二步：考虑状态转移方程</h4><p>根据上述分类讨论总结（根据头尾字符是否相等）可得：</p>
+<p><code>dp[i][j] = (s[i] == s[j]) and dp[i + 1][j - 1]</code></p>
+<p>说明：</p>
+<ul>
+<li><strong>动态规划</strong>实际上是在填一张二维的表格，由于要构成子串，所以这里<code>i</code> 和 <code>j</code> 的关系是 <code>i &lt;= j</code>，因此只要填表格的对角线的上部分即可。</li>
+<li>还有一个问题就是方程中的<code>dp[i + 1][j - 1]</code>，因为要构成子串，所以这里就要考虑边界情况了。</li>
+</ul>
+<p>边界条件是：<code>i + 1 &lt;= j - 1</code>，这样才能构成子串。即：<code>j - i &lt;= 2</code>或者<code>j - i &lt; 3</code>。</p>
+<p>这个结论很明显，当子串<code>s[i .. j]</code>的长度等于<code>2</code>或者等于<code>3</code>的时候，只需判断头尾字符是否相等即可决定这个子串是否是回文子串了。</p>
+<ul>
+<li>如果<code>s[i + 1 ... j - 1]</code>只有一个字符的话，那么去掉两头，剩下的部分只有一个字符，那一定是回文子串。</li>
+<li>如果<code>s[i + 1 .. j - 1]</code>是空串的话，那么子串<code>s[i .. j]</code>一定是回文子串。</li>
+</ul>
+<p>因此，在<code>s[i] == s[j]</code>和<code>j - i &lt; 3</code>都成立的情况下，<code>dp[i][j]</code>为<code>true</code>。否则才考虑转移。</p>
+<p>那么转移方程可以写成：<code>dp[i][j] = (s[i] == s[j]) &amp;&amp; (j - i &lt; 3 || dp[i + 1][j - 1])</code>。</p>
+<h4 id="第三步：考虑初始化"><a href="#第三步：考虑初始化" class="headerlink" title="第三步：考虑初始化"></a>第三步：考虑初始化</h4><p>当只有一个字符的时候一定是回文子串，所以对角线都为<code>true</code>，即<code>dp[i][i] = true</code>。但在这里我们可以不需要初始化，因为当只有一个字符的时候一定是回文子串，<code>dp[i][i]</code>完全不会被其他状态值影响。</p>
+<h4 id="参考代码："><a href="#参考代码：" class="headerlink" title="参考代码："></a>参考代码：</h4><div class="hljs"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> maxn = <span class="hljs-number">1005</span>;
+<span class="hljs-built_in">string</span> s, res;
+<span class="hljs-keyword">bool</span> dp[maxn][maxn];
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;
+	<span class="hljs-built_in">cin</span> &gt;&gt; s;
+	<span class="hljs-keyword">int</span> n = s.length(), ans = <span class="hljs-number">-1</span>;
+	<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> j = <span class="hljs-number">0</span>; j &lt; n; j++) &#123;
+		<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt;= j; i++) &#123;
+			<span class="hljs-keyword">if</span> (s[i] == s[j] &amp;&amp; (j - i &lt; <span class="hljs-number">2</span> || dp[i + <span class="hljs-number">1</span>][j - <span class="hljs-number">1</span>])) dp[i][j] = <span class="hljs-literal">true</span>;
+			<span class="hljs-keyword">if</span> (dp[i][j]) &#123;
+				<span class="hljs-keyword">if</span> (j - i + <span class="hljs-number">1</span> &gt; ans) &#123;
+					ans = j - i + <span class="hljs-number">1</span>;
+					res = s.substr(i, j + <span class="hljs-number">1</span>);
+				&#125;
+			&#125;
+		&#125;
+	&#125;
+	<span class="hljs-built_in">cout</span> &lt;&lt; res &lt;&lt; <span class="hljs-built_in">endl</span>;
+	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;</code></pre></div>
+
+<h2 id="2、最长回文子序列"><a href="#2、最长回文子序列" class="headerlink" title="2、最长回文子序列"></a>2、最长回文子序列</h2><h3 id="2-1、题目"><a href="#2-1、题目" class="headerlink" title="2.1、题目"></a>2.1、题目</h3><p>给定一个字符串 <code>s</code> ，找到其中最长的回文子序列，并返回该序列的长度。可以假设 <code>s</code> 的最大长度为 <code>1000</code> 。</p>
+<p><strong>示例1：</strong></p>
+<div class="hljs"><pre><code class="hljs c++">输入：<span class="hljs-string">"bbbab"</span>
+输出：<span class="hljs-number">4</span>
+解释：一个可能的最长回文子序列为 <span class="hljs-string">"bbbb"</span>。</code></pre></div>
+
+<p><strong>示例2：</strong></p>
+<div class="hljs"><pre><code class="hljs c++">输入：<span class="hljs-string">"cbbd"</span>
+输出：<span class="hljs-number">2</span>
+解释：一个可能的最长回文子序列为 <span class="hljs-string">"bb"</span>。</code></pre></div>
+
+<h3 id="2-2、题解"><a href="#2-2、题解" class="headerlink" title="2.2、题解"></a>2.2、题解</h3><h4 id="问题分析-1"><a href="#问题分析-1" class="headerlink" title="问题分析"></a>问题分析</h4><p>这是一道典型的<strong>区间dp</strong>问题。这里需要注意的是分清楚<strong>子串</strong>和<strong>子序列</strong>的区别。<strong>子串</strong>是连续的，<strong>子序列</strong>是可以不连续的。而这题是<strong>子序列</strong>，是可以不连续的。</p>
+<p>我们先假设<code>S</code>是区间<code>s[i .. j]</code>中的最长回文子序列，<code>s</code>的长度是<code>n</code>，那么<code>s</code>具有以下两种情况：</p>
+<ul>
+<li><code>n == 1</code>，即<code>S</code>的长度为<code>1</code>。</li>
+<li><code>n &gt; 1</code>，即<code>S</code>的长度大于<code>1</code>，那么一定满足<code>S[0] == S[n - 1]</code>，即头和尾字符一定相等。</li>
+</ul>
+<p>那么现在问题就变得简单多了，既然<code>S</code>是区间<code>s[i .. j]</code>中的最长回文子序列，那么对于<code>S</code>来说，去掉头尾字符后，<code>S[1 .. n - 2]</code>也是回文的，同时也是区间<code>S[i + 1 .. j - 1]</code>的最长回文子序列。所以可以推得：区间<code>S[i .. j]</code>的最长回文子序列的长度为区间<code>S[i + 1 .. j - 1]</code>的最长回文子序列长度 + <code>2</code>。</p>
+<h4 id="第一步：定义状态-1"><a href="#第一步：定义状态-1" class="headerlink" title="第一步：定义状态"></a>第一步：定义状态</h4><p>设定<code>dp[i][j]</code>表示区间<code>s[i .. j]</code>的最长回文子序列的长度，<code>s[i .. j]</code>是一个闭区间，可以取到<code>s[i] 和 s[j]</code>。</p>
+<h4 id="第二步：考虑状态转移方程-1"><a href="#第二步：考虑状态转移方程-1" class="headerlink" title="第二步：考虑状态转移方程"></a>第二步：考虑状态转移方程</h4><p>根据以上分析，可以推出方程为：</p>
+<ul>
+<li>若头尾字符相等，那么<code>dp[i][j] =dp[i + 1][j - 1] + 2</code>。</li>
+<li>若头尾字符不相等，那么<code>dp[i][j] = max(dp[i + 1][j]，dp[i][j - 1])</code>。</li>
+</ul>
+<p>说明：</p>
+<ul>
+<li>如果头尾字符相等的话，那区间<code>[i .. j]</code>的最长回文子序列的长度就是区间<code>[i + 1 .. j - 1]</code>的最长回文子序列长度 + <code>2</code>。</li>
+<li>如果头尾字符不相等的话，那区间<code>[i .. j]</code>的最长回文子序列的长度就变成求区间<code>[i + 1 .. j]</code>和区间<code>[i .. j - 1]</code>的最长回文子序列的长度，两者取最大值。</li>
+</ul>
+<h4 id="第三步：考虑初始化-1"><a href="#第三步：考虑初始化-1" class="headerlink" title="第三步：考虑初始化"></a>第三步：考虑初始化</h4><p>和上题求最长回文子串一样，当只有一个字符的时候，一定是最长回文子序列，那么<code>dp[i][i] = 1</code>。</p>
+<p><a href="https://imgchr.com/i/DcMl0e" target="_blank" rel="noopener"><img src="https://s3.ax1x.com/2020/11/29/DcMl0e.png" srcset="/img/loading.gif" alt="DcMl0e.png"></a></p>
+<h4 id="参考代码：-1"><a href="#参考代码：-1" class="headerlink" title="参考代码："></a>参考代码：</h4><div class="hljs"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;bists/stdc++.h&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> maxn = <span class="hljs-number">1005</span>;
+<span class="hljs-built_in">string</span> s;
+<span class="hljs-keyword">int</span> dp[maxn][maxn];
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;
+	<span class="hljs-built_in">cin</span> &gt;&gt; s;
+	<span class="hljs-keyword">int</span> n = s.length();
+	<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> j = <span class="hljs-number">0</span>; j &lt; n; j++) &#123;
+        	dp[j][j] = <span class="hljs-number">1</span>;
+        	<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = j - <span class="hljs-number">1</span>; i &gt;= <span class="hljs-number">0</span>; i--) &#123;
+        		<span class="hljs-keyword">if</span> (s[i] == s[j]) dp[i][j] = dp[i + <span class="hljs-number">1</span>][j - <span class="hljs-number">1</span>] + <span class="hljs-number">2</span>;
+                	<span class="hljs-keyword">else</span> dp[i][j] = <span class="hljs-built_in">max</span>(dp[i + <span class="hljs-number">1</span>][j], dp[i][j - <span class="hljs-number">1</span>]);
+        	&#125;
+        &#125;
+	<span class="hljs-built_in">cout</span> &lt;&lt; dp[<span class="hljs-number">0</span>][n - <span class="hljs-number">1</span>] &lt;&lt; <span class="hljs-built_in">endl</span>;
+	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;</code></pre></div>
             </article>
             <hr>
             <div>
               <div class="post-metas mb-3">
                 
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E7%AE%97%E6%B3%95/">算法</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">动态规划</a>
+                    
+                  </div>
                 
               </div>
               
@@ -251,18 +365,12 @@
                   <div class="post-prev col-6">
                     
                     
-                      <a href="/2020/11/24/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%20-%20%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">动态规划 - 背包问题总结</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </div>
                   <div class="post-next col-6">
                     
                     
-                      <a href="/2020/08/05/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/">
-                        <span class="hidden-mobile">设计模式之抽象工厂模式</span>
+                      <a href="/2020/11/24/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%20-%20%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93/">
+                        <span class="hidden-mobile">动态规划 - 背包问题总结</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -459,7 +567,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "八皇后问题&nbsp;",
+        "最长回文子串（子序列）问题总结&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
